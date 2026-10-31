@@ -31,3 +31,29 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 export type LoginValues = z.infer<typeof loginSchema>;
+
+// ---- Add / edit book ----------------------------------------------------------------------
+import { CATEGORIES } from "@/types";
+
+export const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+export const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
+
+// Identity fields (owner id, name, email, addedAt, availableCopies) are intentionally absent:
+// the Express API derives them from the verified JWT and its own state.
+export const bookFormSchema = z.object({
+  title: z.string().trim().min(2, "Title must be at least 2 characters").max(150, "Title is too long"),
+  author: z.string().trim().min(2, "Author must be at least 2 characters").max(100, "Author name is too long"),
+  category: z.enum(CATEGORIES, { error: "Choose a category" }),
+  image: z.string().min(1, "Upload a cover image").url("Upload a cover image"),
+  description: z
+    .string()
+    .trim()
+    .min(20, "Description must be at least 20 characters")
+    .max(2000, "Description must be at most 2000 characters"),
+  totalCopies: z
+    .number({ error: "Enter the number of copies" })
+    .int("Copies must be a whole number")
+    .min(1, "At least 1 copy")
+    .max(1000, "At most 1000 copies"),
+});
+export type BookFormValues = z.infer<typeof bookFormSchema>;
