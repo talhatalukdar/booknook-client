@@ -13,7 +13,7 @@ export function Community() {
     <section className="bg-deep text-cream">
       <div className="mx-auto grid max-w-7xl gap-14 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:py-28">
         <div>
-          <h2 className="section-title !text-cream">A library is better when it is shared.</h2>
+          <h2 className="section-title text-cream">A library is better when it is shared.</h2>
           <p className="mt-5 max-w-md text-lg text-cream/75">
             BookNook runs on readers who add, borrow and return. Bring a book, take a book, and keep the shelf moving.
           </p>
@@ -31,7 +31,7 @@ export function Community() {
             <li key={p.title} className="flex gap-5 py-7">
               <p.icon className="mt-1 size-7 shrink-0 text-gold" strokeWidth={1.4} />
               <div>
-                <h3 className="font-serif text-[1.7rem] font-semibold !text-cream">{p.title}</h3>
+                <h3 className="font-serif text-[1.7rem] font-semibold text-cream">{p.title}</h3>
                 <p className="mt-1.5 text-cream/70">{p.text}</p>
               </div>
             </li>

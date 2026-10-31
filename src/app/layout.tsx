@@ -1,18 +1,27 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { getServerUser } from "@/lib/session";
 import "./globals.css";
 
-const serif = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
+// Self-hosted (from @fontsource) so builds never depend on reaching Google Fonts.
+const serif = localFont({
+  src: [
+    { path: "../fonts/cormorant-garamond-latin-500-normal.woff2", weight: "500" },
+    { path: "../fonts/cormorant-garamond-latin-600-normal.woff2", weight: "600" },
+    { path: "../fonts/cormorant-garamond-latin-700-normal.woff2", weight: "700" },
+  ],
   variable: "--font-cormorant",
   display: "swap",
 });
-const sans = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
+const sans = localFont({
+  src: "../fonts/manrope-latin-wght-normal.woff2",
+  weight: "200 800",
+  variable: "--font-manrope",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: { default: "BookNook | Home", template: "BookNook | %s" },

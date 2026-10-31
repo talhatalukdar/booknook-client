@@ -33,6 +33,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+@layer base {
 h1,
 h2,
 h3 {
@@ -41,6 +42,7 @@ h3 {
   letter-spacing: -0.01em;
   line-height: 1.08;
   color: var(--color-deep);
+}
 }
 
 ::selection {
@@ -78,23 +80,21 @@ h3 {
   font-size: clamp(2rem, 4vw, 3rem);
 }
 
-/* Hero slider (Swiper) skin */
-.hero-swiper .swiper-pagination {
-  position: static;
-  width: auto;
-  text-align: left;
-}
-.hero-swiper .swiper-pagination-bullet {
-  width: 2rem;
-  height: 3px;
+/* Hero slider (Swiper) skin; the pagination element lives outside the Swiper root */
+.hero-pagination .swiper-pagination-bullet {
+  display: inline-block;
+  width: 2.25rem;
+  height: 4px;
+  margin: 0 !important;
   border-radius: 0;
   background: var(--color-forest);
-  opacity: 0.25;
-  transition: opacity 0.2s, background 0.2s;
+  opacity: 0.22;
+  cursor: pointer;
+  transition: opacity 0.2s;
 }
-.hero-swiper .swiper-pagination-bullet-active {
+.hero-pagination .swiper-pagination-bullet-active {
   opacity: 1;
-  background: var(--color-forest);
+  background: var(--color-gold);
 }
 
 /* One orchestrated moment: the spines rise onto the shelf when the hero loads */

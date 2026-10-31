@@ -27,7 +27,7 @@ export function Categories() {
               <c.icon className="size-9 text-forest" strokeWidth={1.25} />
               <div>
                 <h3 className="font-serif text-[2rem] font-semibold">{c.name}</h3>
-                <p className="mt-1 text-sm text-ink/75">{c.text}</p>
+                <p className="mt-1 min-h-[2.8rem] text-sm text-ink/75">{c.text}</p>
               </div>
             </Link>
           </li>

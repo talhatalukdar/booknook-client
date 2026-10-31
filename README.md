@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BookNook Client
 
-## Getting Started
+**BookNook – A Small Online Library.** Browse the shelf, add books, borrow for a few days and return them.
 
-First, run the development server:
+- Live site: _add the Vercel URL here after deployment_
+- API: `booknook-server` (Express + MongoDB), a separate repository
+
+## Features
+
+- Swiper hero slider with three slides and a prominent **Browse Books** call to action
+- **New Arrivals**: the latest six books loaded live from MongoDB, shown in two desktop columns
+- Email/password and Google sign-in with BetterAuth; sessions persist across reloads
+- Private routes redirect to Login and return you to the page you wanted
+- Real availability (`availableCopies` / `totalCopies`) from the database, never hardcoded
+- Responsive layout, skeleton and error states, Sonner toasts, custom 404, per-page titles
+
+> Status: homepage, navbar/footer, design system, Login, Register, 404 and route protection are
+> implemented. All Books, Book Details, Add Book, My Books, My Borrows and Profile are the next phase.
+
+## Stack
+
+Next.js (App Router) · TypeScript · Tailwind CSS v4 · shadcn-style components on Radix · Lucide ·
+Swiper · Framer Motion · Sonner · React Hook Form + Zod · BetterAuth (MongoDB adapter, JWT plugin).
+
+## Authentication
+
+BetterAuth runs inside this Next.js app (`/api/auth/*`) with the MongoDB adapter. The JWT plugin
+signs short-lived (15 min) EdDSA tokens and publishes keys at `/api/auth/jwks`. `src/lib/api.ts`
+gets a token with `authClient.token()`, keeps it in memory only, and sends it as
+`Authorization: Bearer <token>`. The Express server verifies signature, expiry, issuer and
+audience against that JWKS; identity is never taken from the request body.
+
+## Environment variables
+
+Copy `.env.example` to `.env.local`; every variable is documented there
+(`BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `MONGODB_URI`, `DB_NAME`, `GOOGLE_CLIENT_ID`,
+`GOOGLE_CLIENT_SECRET`, `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_IMGBB_API_KEY`).
+`BETTER_AUTH_URL` here must equal the server's `BETTER_AUTH_URL`.
+
+## Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # fill in values
+npm run dev                  # http://localhost:3000
+npm run lint && npx tsc --noEmit && npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployment (Vercel)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Import the repo, set all variables above (production URLs, no trailing slashes), add
+`https://<app>.vercel.app/api/auth/callback/google` to the Google OAuth redirect URIs, then set the
+same app URL as `CLIENT_URL` and `BETTER_AUTH_URL` on the Render server.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Screenshots
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+_Add screenshots here after deployment._

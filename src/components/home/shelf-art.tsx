@@ -67,21 +67,31 @@ const layouts: Record<number, { upper: Spine[]; lower: Spine[]; lean: Spine }> =
   },
 };
 
-function Row({ spines, baseY, startX }: { spines: Spine[]; baseY: number; startX: number }) {
-  let x = startX;
+/** Repeat a layout (with slightly varied heights) until the row reaches `target` width. */
+function fillRow(spines: Spine[], target: number): (Spine & { x: number })[] {
+  const out: (Spine & { x: number })[] = [];
+  let x = 0;
+  for (let i = 0; x < target; i++) {
+    const base = spines[i % spines.length]!;
+    const lap = Math.floor(i / spines.length);
+    const s = { ...base, h: base.h - (lap % 2) * 10 + (lap % 3) * 4 };
+    if (x + s.w > target) break;
+    out.push({ ...s, x });
+    x += s.w + 3;
+  }
+  return out;
+}
+
+function Row({ spines, baseY, startX, target }: { spines: Spine[]; baseY: number; startX: number; target: number }) {
   return (
     <>
-      {spines.map((s, i) => {
-        const x0 = x;
-        x += s.w + 3;
-        return (
-          <g key={i} className="spine" style={{ animationDelay: `${i * 70}ms` }}>
-            <rect x={x0} y={baseY - s.h} width={s.w} height={s.h} rx={1.5} fill={s.fill} />
-            {s.band && <rect x={x0} y={baseY - s.h + 14} width={s.w} height={5} fill={s.band} />}
-            {s.band && <rect x={x0} y={baseY - 22} width={s.w} height={3} fill={s.band} opacity={0.8} />}
-          </g>
-        );
-      })}
+      {fillRow(spines, target).map((s, i) => (
+        <g key={i} className="spine" style={{ animationDelay: `${i * 60}ms` }}>
+          <rect x={startX + s.x} y={baseY - s.h} width={s.w} height={s.h} rx={1.5} fill={s.fill} />
+          {s.band && <rect x={startX + s.x} y={baseY - s.h + 14} width={s.w} height={5} fill={s.band} />}
+          {s.band && <rect x={startX + s.x} y={baseY - 22} width={s.w} height={3} fill={s.band} opacity={0.8} />}
+        </g>
+      ))}
     </>
   );
 }
@@ -99,16 +109,16 @@ export function ShelfArt({ variant = 0, className }: { variant?: number; classNa
       <rect x="14" y="14" width="492" height="412" rx="2" fill="none" stroke="#C6A15B" strokeOpacity="0.45" />
 
       {/* upper shelf */}
-      <Row spines={l.upper} baseY={190} startX={48} />
+      <Row spines={l.upper} baseY={190} startX={48} target={225} />
       <rect x="32" y="190" width="456" height="9" fill="#C6A15B" />
       <rect x="32" y="199" width="456" height="3" fill="#000" opacity="0.25" />
 
       {/* lower shelf */}
-      <Row spines={l.lower} baseY={372} startX={48} />
+      <Row spines={l.lower} baseY={372} startX={48} target={340} />
       <g className="spine" style={{ animationDelay: "520ms" }}>
-        <g transform="rotate(-11 400 372)">
-          <rect x={400} y={372 - l.lean.h} width={l.lean.w} height={l.lean.h} rx={1.5} fill={l.lean.fill} />
-          <rect x={400} y={372 - l.lean.h + 14} width={l.lean.w} height={5} fill={l.lean.band} />
+        <g transform="rotate(-11 410 372)">
+          <rect x={410} y={372 - l.lean.h} width={l.lean.w} height={l.lean.h} rx={1.5} fill={l.lean.fill} />
+          <rect x={410} y={372 - l.lean.h + 14} width={l.lean.w} height={5} fill={l.lean.band} />
         </g>
       </g>
       <rect x="32" y="372" width="456" height="9" fill="#C6A15B" />
