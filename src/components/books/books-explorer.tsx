@@ -199,7 +199,7 @@ function State({ icon, title, text, children }: { icon: React.ReactNode; title: 
   return (
     <div className="mt-3 flex flex-col items-center rounded-[4px] border border-dashed border-forest/30 px-6 py-16 text-center">
       {icon}
-      <h2 className="mt-4 font-serif text-2xl font-semibold">{title}</h2>
+      <h2 className="mt-4 font-serif text-2xl">{title}</h2>
       <p className="mt-2 max-w-md text-muted">{text}</p>
       <div className="mt-6">{children}</div>
     </div>

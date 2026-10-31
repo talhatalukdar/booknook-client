@@ -1,25 +1,41 @@
 import { Suspense } from "react";
 import { Categories } from "@/components/home/categories";
 import { Community } from "@/components/home/community";
+import { Glance } from "@/components/home/glance";
 import { HeroSlider } from "@/components/home/hero-slider";
 import { HowItWorks } from "@/components/home/how-it-works";
-import { NewArrivalsList, NewArrivalsSkeleton, SectionHeading } from "@/components/home/new-arrivals";
+import { NewArrivalsList, NewArrivalsSkeleton } from "@/components/home/new-arrivals";
+import { RecentlyViewed } from "@/components/home/recently-viewed";
+import { SearchStrip } from "@/components/home/search-strip";
+import { SectionHeading } from "@/components/home/section-heading";
+import { getHomeData } from "@/lib/home-data";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const data = await getHomeData();
+  // Three hero slides, three real covers each (falls back to the illustration without enough books).
+  const slideBooks = [0, 1, 2].map((i) => data?.newest.slice(i * 3, i * 3 + 3) ?? []);
+
+  // Homepage sections are independent modules: add, remove or reorder them here.
   return (
     <>
-      <HeroSlider />
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
+      <HeroSlider slideBooks={slideBooks} />
+      <SearchStrip />
+
+      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32">
         <SectionHeading
-          title="New arrivals"
-          text="The six books most recently added to the shelf, straight from the library."
+          eyebrow="New arrivals"
+          title={<>Fresh on the <em>shelf</em>.</>}
+          text="The six books most recently added to the library, straight from the database."
         />
         <Suspense fallback={<NewArrivalsSkeleton />}>
           <NewArrivalsList />
         </Suspense>
       </section>
+
+      {data && <Categories data={data.categories} />}
+      {data && <Glance data={data} />}
+      <RecentlyViewed />
       <HowItWorks />
-      <Categories />
       <Community />
     </>
   );

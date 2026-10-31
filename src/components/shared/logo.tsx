@@ -5,16 +5,11 @@ import { cn } from "@/lib/utils";
 export function Logo({ className, tone = "light" }: { className?: string; tone?: "light" | "dark" }) {
   return (
     <Link href="/" className={cn("inline-flex items-center gap-2.5", className)} aria-label="BookNook home">
-      <span className="grid size-9 place-items-center rounded-[4px] bg-gold text-deep">
-        <BookOpen className="size-5" strokeWidth={2.25} />
+      <span className={cn("grid size-9 place-items-center rounded-full", tone === "light" ? "bg-gold text-deep" : "bg-forest text-cream")}>
+        <BookOpen className="size-[1.15rem]" strokeWidth={2} />
       </span>
-      <span
-        className={cn(
-          "font-serif text-[1.75rem] font-semibold leading-none tracking-tight",
-          tone === "light" ? "text-cream" : "text-deep",
-        )}
-      >
-        BookNook
+      <span className={cn("font-serif text-[2rem] leading-none tracking-[-0.02em]", tone === "light" ? "text-cream" : "text-deep")}>
+        Book<em className={cn("pr-0.5", tone === "light" ? "!text-gold" : "!text-forest")}>Nook</em>
       </span>
     </Link>
   );

@@ -34,7 +34,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`BookNook on ${label}`}
-                  className="grid size-10 place-items-center rounded-control border border-cream/25 text-cream/80 transition-colors hover:border-gold hover:text-gold"
+                  className="grid size-10 place-items-center rounded-full border border-cream/25 text-cream/80 transition-colors hover:border-gold hover:text-gold"
                 >
                   <Icon className="size-[1.15rem]" />
                 </a>
@@ -44,7 +44,7 @@ export function Footer() {
         </div>
 
         <nav aria-label="Footer">
-          <h2 className="font-serif text-2xl font-semibold text-cream">Explore</h2>
+          <h2 className="font-serif text-3xl text-cream">Explore</h2>
           <ul className="mt-4 space-y-2.5">
             {explore.map((l) => (
               <li key={l.href}>
@@ -57,7 +57,7 @@ export function Footer() {
         </nav>
 
         <div>
-          <h2 className="font-serif text-2xl font-semibold text-cream">Contact</h2>
+          <h2 className="font-serif text-3xl text-cream">Contact</h2>
           <ul className="mt-4 space-y-3 text-cream/70">
             <li className="flex items-center gap-2.5">
               <Mail className="size-4 text-gold" />

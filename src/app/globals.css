@@ -3,21 +3,25 @@
 /* "Reading Room" design tokens */
 @theme inline {
   --color-forest: #174b38;
-  --color-deep: #10372b;
+  --color-deep: #0e3427;
   --color-gold: #c6a15b;
-  --color-cream: #f8f6f0;
+  --color-amber: #9a6f1f; /* gold for text on cream (AA contrast) */
+  --color-cream: #fbf8ef;
+  --color-sand: #f1ecdc; /* tinted panels and arches */
   --color-paper: #ffffff;
-  --color-ink: #202820;
-  --color-muted: #666960; /* secondary text, darkened from #74776F to keep AA contrast on cream */
-  --color-line: #e8e5dc;
-  --color-danger: #dc2626;
-  --color-success: #15803d;
+  --color-ink: #1d251f;
+  --color-muted: #626559; /* secondary text, AA on cream */
+  --color-line: #e6e1d2;
+  --color-danger: #c62828;
+  --color-success: #17713b;
 
-  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-cormorant), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-sans-src), system-ui, sans-serif;
+  --font-serif: var(--font-serif-src), Georgia, serif;
 
-  --radius-control: 6px;
-  --radius-cover: 2px;
+  --radius-control: 999px; /* buttons are pills (Fable, Bookly) */
+  --radius-field: 12px;
+  --radius-cover: 3px;
+  --shadow-cover: 0 22px 30px -16px rgba(14, 52, 39, 0.55), 0 6px 10px -4px rgba(14, 52, 39, 0.25);
 }
 
 html {
@@ -29,20 +33,30 @@ body {
   background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  line-height: 1.65;
+  font-size: 1.0625rem;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 @layer base {
-h1,
-h2,
-h3 {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.08;
-  color: var(--color-deep);
-}
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-synthesis: none;
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+    color: var(--color-deep);
+  }
+  h1 em,
+  h2 em,
+  h3 em,
+  .accent {
+    font-style: italic;
+    color: var(--color-forest);
+  }
 }
 
 ::selection {
@@ -67,17 +81,36 @@ h3 {
   }
 }
 
-/* Shared heading scale so every section heading matches */
+/* Shared heading scale so every page heading matches */
 .display {
   font-family: var(--font-serif);
-  font-weight: 600;
-  line-height: 1.02;
-  font-size: clamp(2.6rem, 6.2vw, 5rem);
+  font-weight: 400;
+  font-synthesis: none;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  font-size: clamp(3rem, 7.4vw, 6rem);
+}
+.page-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-synthesis: none;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-size: clamp(2.6rem, 5.6vw, 4.5rem);
 }
 .section-title {
   font-family: var(--font-serif);
+  font-weight: 400;
+  font-synthesis: none;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  font-size: clamp(2.2rem, 4.4vw, 3.5rem);
+}
+.eyebrow {
+  font-size: 0.8125rem;
   font-weight: 600;
-  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: 0.04em;
+  color: var(--color-amber);
 }
 
 /* Hero slider (Swiper) skin; the pagination element lives outside the Swiper root */

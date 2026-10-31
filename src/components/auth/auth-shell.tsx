@@ -14,7 +14,7 @@ export function AuthShell({
       <aside className="relative hidden flex-col justify-between bg-deep p-12 text-cream lg:flex">
         <Quote className="size-10 text-gold" strokeWidth={1.25} />
         <div>
-          <p className="font-serif text-5xl font-semibold leading-[1.08]">
+          <p className="font-serif text-5xl leading-[1.08]">
             A book kept on a shelf is a book waiting for a reader.
           </p>
           <p className="mt-6 max-w-sm text-cream/70">

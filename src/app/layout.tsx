@@ -7,20 +7,22 @@ import { getServerUser } from "@/lib/session";
 import "./globals.css";
 
 // Self-hosted (from @fontsource) so builds never depend on reaching Google Fonts.
+// Instrument Serif: display headings and book titles. Instrument Sans: interface and body text.
 const serif = localFont({
   src: [
-    { path: "../fonts/cormorant-garamond-latin-500-normal.woff2", weight: "500" },
-    { path: "../fonts/cormorant-garamond-latin-600-normal.woff2", weight: "600" },
-    { path: "../fonts/cormorant-garamond-latin-700-normal.woff2", weight: "700" },
+    { path: "../fonts/instrument-serif-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/instrument-serif-latin-400-italic.woff2", weight: "400", style: "italic" },
   ],
-  variable: "--font-cormorant",
+  variable: "--font-serif-src",
   display: "swap",
+  fallback: ["Georgia", "Times New Roman", "serif"],
 });
 const sans = localFont({
-  src: "../fonts/manrope-latin-wght-normal.woff2",
-  weight: "200 800",
-  variable: "--font-manrope",
+  src: "../fonts/instrument-sans-latin-wght-normal.woff2",
+  weight: "400 700",
+  variable: "--font-sans-src",
   display: "swap",
+  fallback: ["system-ui", "Segoe UI", "sans-serif"],
 });
 
 export const metadata: Metadata = {

@@ -9,7 +9,7 @@ export const Dialog = Primitive.Root;
 export const DialogTrigger = Primitive.Trigger;
 export const DialogClose = Primitive.Close;
 export const DialogTitle = ({ className, ...p }: React.ComponentProps<typeof Primitive.Title>) => (
-  <Primitive.Title className={cn("font-serif text-3xl font-semibold text-deep", className)} {...p} />
+  <Primitive.Title className={cn("font-serif text-4xl text-deep", className)} {...p} />
 );
 export const DialogDescription = ({ className, ...p }: React.ComponentProps<typeof Primitive.Description>) => (
   <Primitive.Description className={cn("mt-1 text-muted", className)} {...p} />
@@ -21,7 +21,7 @@ export function DialogContent({ className, children, ...props }: React.Component
       <Primitive.Overlay className="fixed inset-0 z-50 bg-deep/60" />
       <Primitive.Content
         className={cn(
-          "fixed left-1/2 top-1/2 z-50 max-h-[92dvh] w-[min(34rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-[4px] bg-cream p-6 shadow-2xl sm:p-8",
+          "fixed left-1/2 top-1/2 z-50 max-h-[92dvh] w-[min(34rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-[20px] bg-cream p-6 shadow-2xl sm:p-8",
           className,
         )}
         {...props}

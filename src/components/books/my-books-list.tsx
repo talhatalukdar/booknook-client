@@ -122,7 +122,7 @@ export function MyBooksList() {
                 </div>
                 <div className="min-w-0 sm:order-none">
                   <p className="text-sm font-semibold text-forest">{b.category}</p>
-                  <h2 className="font-serif text-2xl font-semibold leading-tight text-deep">
+                  <h2 className="font-serif text-2xl leading-tight text-deep">
                     <Link href={`/books/${b._id}`} className="hover:underline">
                       {b.title}
                     </Link>
@@ -224,7 +224,7 @@ export function Notice({ icon, title, text, children }: { icon: React.ReactNode;
   return (
     <div className="flex flex-col items-center rounded-[4px] border border-dashed border-forest/30 px-6 py-16 text-center">
       {icon}
-      <h2 className="mt-4 font-serif text-2xl font-semibold">{title}</h2>
+      <h2 className="mt-4 font-serif text-2xl">{title}</h2>
       <p className="mt-2 max-w-md text-muted">{text}</p>
       <div className="mt-6">{children}</div>
     </div>

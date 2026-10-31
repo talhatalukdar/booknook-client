@@ -5,7 +5,7 @@ export function Input({ className, ...props }: React.ComponentProps<"input">) {
   return (
     <input
       className={cn(
-        "h-11 w-full rounded-control border border-line bg-paper px-3.5 text-sm text-ink placeholder:text-muted/80 focus-visible:border-forest focus-visible:outline-2 focus-visible:outline-gold disabled:opacity-60 aria-invalid:border-danger",
+        "h-11 w-full rounded-field border border-line bg-paper px-3.5 text-sm text-ink placeholder:text-muted/80 focus-visible:border-forest focus-visible:outline-2 focus-visible:outline-gold disabled:opacity-60 aria-invalid:border-danger",
         className,
       )}
       {...props}
@@ -30,7 +30,7 @@ export function Textarea({ className, ...props }: React.ComponentProps<"textarea
   return (
     <textarea
       className={cn(
-        "min-h-32 w-full rounded-control border border-line bg-paper px-3.5 py-3 text-sm text-ink placeholder:text-muted/80 focus-visible:border-forest focus-visible:outline-2 focus-visible:outline-gold aria-invalid:border-danger",
+        "min-h-32 w-full rounded-field border border-line bg-paper px-3.5 py-3 text-sm text-ink placeholder:text-muted/80 focus-visible:border-forest focus-visible:outline-2 focus-visible:outline-gold aria-invalid:border-danger",
         className,
       )}
       {...props}
@@ -42,7 +42,7 @@ export function Select({ className, ...props }: React.ComponentProps<"select">) 
   return (
     <select
       className={cn(
-        "h-11 w-full rounded-control border border-line bg-paper px-3 text-sm text-ink focus-visible:border-forest focus-visible:outline-2 focus-visible:outline-gold aria-invalid:border-danger",
+        "h-11 w-full rounded-field border border-line bg-paper px-3 text-sm text-ink focus-visible:border-forest focus-visible:outline-2 focus-visible:outline-gold aria-invalid:border-danger",
         className,
       )}
       {...props}

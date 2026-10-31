@@ -81,7 +81,7 @@ export function ProfileView({ user }: { user: SessionUser }) {
         <div className="flex items-center gap-5">
           <Avatar name={user.name} src={user.image} className="size-20 text-2xl" />
           <div className="min-w-0">
-            <h2 className="truncate font-serif text-3xl font-semibold text-deep">{user.name}</h2>
+            <h2 className="truncate font-serif text-3xl text-deep">{user.name}</h2>
             <p className="truncate text-muted">{user.email}</p>
           </div>
         </div>
@@ -91,7 +91,7 @@ export function ProfileView({ user }: { user: SessionUser }) {
           </p>
         )}
 
-        <h3 className="mt-10 font-serif text-2xl font-semibold">Reading activity</h3>
+        <h3 className="mt-10 font-serif text-2xl">Reading activity</h3>
         {statsError ? (
           <p className="mt-3 text-muted">Your activity could not be loaded right now.</p>
         ) : !stats ? (
@@ -115,7 +115,7 @@ export function ProfileView({ user }: { user: SessionUser }) {
       </section>
 
       <section aria-label="Edit profile" className="rounded-[4px] border border-line bg-paper p-6 sm:p-8">
-        <h3 className="font-serif text-2xl font-semibold">Edit profile</h3>
+        <h3 className="font-serif text-2xl">Edit profile</h3>
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-6 space-y-5">
           <div>
             <Label htmlFor="name">Full name</Label>

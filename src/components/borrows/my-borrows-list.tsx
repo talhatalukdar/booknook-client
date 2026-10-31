@@ -115,7 +115,7 @@ export function MyBorrowsList() {
               <BookCover src={b.bookImage} title={b.bookTitle} author="" sizes="72px" />
             </div>
             <div className="min-w-0">
-              <h2 className="font-serif text-2xl font-semibold leading-tight text-deep">
+              <h2 className="font-serif text-2xl leading-tight text-deep">
                 <Link href={`/books/${b.bookId}`} className="hover:underline">
                   {b.bookTitle}
                 </Link>

@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOut, Menu, User as UserIcon, X } from "lucide-react";
+import { LogOut, Menu, Search, User as UserIcon, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -58,9 +58,9 @@ export function Navbar({ initialUser }: { initialUser: SessionUser | null }) {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-gold/25 bg-deep text-cream">
+    <header className="sticky top-0 z-40 border-b border-line bg-cream/85 text-ink backdrop-blur-md">
       <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
-        <Logo />
+        <Logo tone="dark" />
 
         <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
           {links.map((l) => (
@@ -69,9 +69,9 @@ export function Navbar({ initialUser }: { initialUser: SessionUser | null }) {
               href={l.href}
               aria-current={isActive(l.href) ? "page" : undefined}
               className={cn(
-                "relative rounded-control px-3.5 py-2 text-sm font-medium text-cream/80 transition-colors hover:text-cream",
+                "relative rounded-full px-3.5 py-2 text-[0.95rem] font-medium text-ink/65 transition-colors hover:text-deep",
                 isActive(l.href) &&
-                  "text-cream after:absolute after:inset-x-3.5 after:-bottom-[1.05rem] after:h-0.5 after:bg-gold",
+                  "text-deep after:absolute after:inset-x-3.5 after:-bottom-[1.1rem] after:h-0.5 after:bg-gold",
               )}
             >
               {l.label}
@@ -79,7 +79,14 @@ export function Navbar({ initialUser }: { initialUser: SessionUser | null }) {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Link
+            href="/books"
+            aria-label="Search books"
+            className="grid size-10 place-items-center rounded-full text-ink/70 transition-colors hover:bg-deep/5 hover:text-deep"
+          >
+            <Search className="size-5" />
+          </Link>
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger
@@ -106,10 +113,10 @@ export function Navbar({ initialUser }: { initialUser: SessionUser | null }) {
             </DropdownMenu>
           ) : (
             <div className="hidden items-center gap-2 sm:flex">
-              <Button asChild variant="outline-light" size="sm">
+              <Button asChild variant="ghost" size="sm" className="text-deep">
                 <Link href="/login">Login</Link>
               </Button>
-              <Button asChild variant="gold" size="sm">
+              <Button asChild size="sm">
                 <Link href="/register">Register</Link>
               </Button>
             </div>
@@ -117,13 +124,13 @@ export function Navbar({ initialUser }: { initialUser: SessionUser | null }) {
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-cream hover:bg-cream/10 lg:hidden" aria-label="Open menu">
+              <Button variant="ghost" size="icon" className="text-deep hover:bg-deep/5 lg:hidden" aria-label="Open menu">
                 <Menu className="size-6" />
               </Button>
             </SheetTrigger>
             <SheetContent>
               <div className="mb-8 flex items-center justify-between">
-                <SheetTitle className="font-serif text-2xl font-semibold">Menu</SheetTitle>
+                <SheetTitle className="font-serif text-3xl">Menu</SheetTitle>
                 <SheetClose asChild>
                   <Button variant="ghost" size="icon" className="text-cream hover:bg-cream/10" aria-label="Close menu">
                     <X className="size-5" />
@@ -138,8 +145,8 @@ export function Navbar({ initialUser }: { initialUser: SessionUser | null }) {
                       href={l.href}
                       aria-current={isActive(l.href) ? "page" : undefined}
                       className={cn(
-                        "border-b border-cream/10 py-3.5 text-lg font-medium text-cream/80",
-                        isActive(l.href) && "text-gold",
+                        "border-b border-cream/10 py-3.5 font-serif text-3xl text-cream/85",
+                        isActive(l.href) && "text-gold italic",
                       )}
                     >
                       {l.label}

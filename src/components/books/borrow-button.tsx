@@ -85,7 +85,7 @@ export function BorrowButton({ book, user }: { book: Book; user: { name: string;
         <div className="mt-6 grid grid-cols-[6rem_1fr] gap-5">
           <BookCover src={book.image} title={book.title} author={book.author} sizes="96px" />
           <div className="min-w-0">
-            <p className="font-serif text-2xl font-semibold leading-tight text-deep">{book.title}</p>
+            <p className="font-serif text-2xl leading-tight text-deep">{book.title}</p>
             <p className="mt-1 text-muted">by {book.author}</p>
           </div>
         </div>
