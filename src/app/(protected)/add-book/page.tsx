@@ -1,0 +1,18 @@
+import type { Metadata } from "next";
+import { AddBookForm } from "@/components/books/add-book-form";
+import { getServerUser } from "@/lib/session";
+
+export const metadata: Metadata = { title: "Add Book" };
+
+export default async function AddBookPage() {
+  const user = (await getServerUser())!;
+  return (
+    <div className="mx-auto max-w-3xl px-5 py-14 sm:px-8 lg:py-20">
+      <h1 className="display !text-[clamp(2.4rem,5vw,4rem)]">Add a book</h1>
+      <p className="mt-3 max-w-xl text-lg text-muted">Shelve a book for other readers. It appears in All Books right away.</p>
+      <div className="mt-10">
+        <AddBookForm account={{ name: user.name, email: user.email, image: user.image }} />
+      </div>
+    </div>
+  );
+}
