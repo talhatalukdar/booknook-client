@@ -11,7 +11,7 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
   const callbackUrl = safeCallbackUrl((await searchParams).callbackUrl);
   if (await getServerUser()) redirect(callbackUrl);
   return (
-    <AuthShell title="Create your account" subtitle="Register to add, borrow and return books.">
+    <AuthShell title={<>Create your <em>account</em></>} subtitle="Register to add, borrow and return books.">
       <RegisterForm callbackUrl={callbackUrl} />
     </AuthShell>
   );

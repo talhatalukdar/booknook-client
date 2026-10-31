@@ -79,7 +79,7 @@ export function MyBorrowsList() {
     return (
       <div className="space-y-3" aria-busy>
         {Array.from({ length: 3 }).map((_, i) => (
-          <Skeleton key={i} className="h-24 rounded-[4px]" />
+          <Skeleton key={i} className="h-24 rounded-[20px]" />
         ))}
       </div>
     );
@@ -110,12 +110,12 @@ export function MyBorrowsList() {
       </div>
       <ul className={cn("space-y-3", loading && "opacity-50")} aria-busy={loading}>
         {data.map((b) => (
-          <li key={b._id} className={cn("grid items-center gap-x-4 gap-y-3 rounded-[4px] border border-line bg-paper p-4 sm:px-5", "grid-cols-[4.5rem_1fr]", cols)}>
+          <li key={b._id} className={cn("grid items-center gap-x-4 gap-y-3 rounded-[20px] border border-line bg-paper p-4 sm:px-5", "grid-cols-[4.5rem_1fr]", cols)}>
             <div className="w-[4.5rem]">
               <BookCover src={b.bookImage} title={b.bookTitle} author="" sizes="72px" />
             </div>
             <div className="min-w-0">
-              <h2 className="font-serif text-2xl leading-tight text-deep">
+              <h2 className="font-serif text-3xl leading-tight text-deep">
                 <Link href={`/books/${b.bookId}`} className="hover:underline">
                   {b.bookTitle}
                 </Link>

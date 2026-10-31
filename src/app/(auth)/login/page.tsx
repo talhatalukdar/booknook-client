@@ -11,7 +11,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   const callbackUrl = safeCallbackUrl((await searchParams).callbackUrl);
   if (await getServerUser()) redirect(callbackUrl);
   return (
-    <AuthShell title="Welcome back" subtitle="Login to borrow books and manage your shelf.">
+    <AuthShell title={<>Welcome <em>back</em></>} subtitle="Login to borrow books and manage your shelf.">
       <LoginForm callbackUrl={callbackUrl} />
     </AuthShell>
   );

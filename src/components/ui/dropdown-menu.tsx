@@ -31,7 +31,7 @@ export function DropdownMenuItem({ className, ...props }: React.ComponentProps<t
   return (
     <Primitive.Item
       className={cn(
-        "flex cursor-pointer items-center gap-2.5 rounded-[4px] px-3 py-2.5 text-sm font-medium outline-none data-[highlighted]:bg-forest/10 data-[highlighted]:text-forest [&_svg]:size-4",
+        "flex cursor-pointer items-center gap-2.5 rounded-[20px] px-3 py-2.5 text-sm font-medium outline-none data-[highlighted]:bg-forest/10 data-[highlighted]:text-forest [&_svg]:size-4",
         className,
       )}
       {...props}

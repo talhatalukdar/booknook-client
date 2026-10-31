@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { AvailabilityBadge } from "@/components/books/availability-badge";
+import { availabilityState } from "@/components/books/availability-badge";
+import { BookCard } from "@/components/books/book-card";
 import { BookCover } from "@/components/books/book-cover";
 import { BorrowButton } from "@/components/books/borrow-button";
 import { categoryTint } from "@/components/books/category-tint";
-import { ApiError, getBook } from "@/lib/api";
+import { RecordView } from "@/components/books/record-view";
+import { ApiError, getBook, getBooks } from "@/lib/api";
 import { getServerUser } from "@/lib/session";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import type { Book } from "@/types";
 
-type Props = { params: Promise<{ id: string }> };
+type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ borrow?: string }> };
 
 async function load(id: string): Promise<Book | null> {
   try {
@@ -26,56 +28,97 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: book ? `Book Details: ${book.title}` : "Book Details" };
 }
 
-export default async function BookDetailsPage({ params }: Props) {
+export default async function BookDetailsPage({ params, searchParams }: Props) {
   const { id } = await params;
+  const { borrow } = await searchParams;
   // Page-level protection (the proxy also redirects when there is no session cookie at all).
   const user = await getServerUser();
-  if (!user) redirect(`/login?callbackUrl=${encodeURIComponent(`/books/${id}`)}`);
+  if (!user) redirect(`/login?callbackUrl=${encodeURIComponent(`/books/${id}${borrow ? `?borrow=${borrow}` : ""}`)}`);
 
   const book = await load(id);
   if (!book) notFound();
 
+  const state = availabilityState(book.availableCopies);
+  const pct = Math.round((book.availableCopies / Math.max(book.totalCopies, 1)) * 100);
+  const related = await getBooks({ category: book.category, sort: "newest", limit: 5 })
+    .then((r) => r.items.filter((b) => b._id !== book._id).slice(0, 4))
+    .catch(() => [] as Book[]);
+
   const facts = [
+    ["Category", book.category],
     ["Total copies", String(book.totalCopies)],
-    ["Available copies", String(book.availableCopies)],
     ["Added by", book.addedByName],
     ["Added on", formatDate(book.addedAt)],
   ];
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 lg:py-20">
-      <nav aria-label="Breadcrumb" className="mb-8 text-sm text-muted">
-        <Link href="/books" className="font-semibold text-forest underline underline-offset-4">
+    <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:py-20">
+      <RecordView book={{ id: book._id, title: book.title, author: book.author, image: book.image }} />
+      <nav aria-label="Breadcrumb" className="mb-10 text-sm text-muted">
+        <Link href="/books" className="font-semibold text-deep underline underline-offset-4">
           All books
         </Link>{" "}
-        / {book.title}
+        / {book.category}
       </nav>
-      <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-        <div className="flex items-center justify-center rounded-[4px] p-10 sm:p-14" style={{ backgroundColor: categoryTint[book.category] }}>
-          <BookCover src={book.image} title={book.title} author={book.author} sizes="(min-width:1024px) 340px, 70vw" priority className="max-w-[20rem]" />
+
+      <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+        <div
+          className="mx-auto w-full max-w-md rounded-t-full rounded-b-[28px] px-[20%] pb-12 pt-[28%]"
+          style={{ backgroundColor: categoryTint[book.category] }}
+        >
+          <BookCover src={book.image} title={book.title} author={book.author} sizes="(min-width:1024px) 340px, 70vw" priority />
         </div>
+
         <div>
-          <p className="font-semibold text-forest">{book.category}</p>
-          <h1 className="display mt-2 !text-[clamp(2.4rem,5vw,4rem)]">{book.title}</h1>
-          <p className="mt-3 text-xl text-muted">by {book.author}</p>
-          <AvailabilityBadge available={book.availableCopies} total={book.totalCopies} className="mt-6 text-base" />
+          <p className="eyebrow">{book.category}</p>
+          <h1 className="page-title mt-3 !text-[clamp(2.8rem,6vw,5rem)]">{book.title}</h1>
+          <p className="mt-3 font-serif text-3xl italic text-forest">by {book.author}</p>
 
-          <p className="mt-8 max-w-prose whitespace-pre-line text-lg leading-relaxed">{book.description}</p>
+          <div className="mt-8 rounded-[20px] border border-line bg-paper p-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className={cn("flex items-center gap-2 text-lg font-semibold", state.text)}>
+                <span aria-hidden className={cn("size-2.5 rounded-full", state.dot)} />
+                {state.label}
+              </p>
+              <p className="text-sm text-muted">
+                {book.availableCopies} of {book.totalCopies} on the shelf
+              </p>
+            </div>
+            <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-line" role="img" aria-label={`${pct}% of copies available`}>
+              <div className={cn("h-full rounded-full", state.dot)} style={{ width: `${pct}%` }} />
+            </div>
+            <div className="mt-6">
+              <BorrowButton book={book} user={{ name: user.name, email: user.email }} autoOpen={borrow === "1"} />
+            </div>
+          </div>
 
-          <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-[4px] border border-line bg-line">
+          <p className="mt-10 max-w-prose whitespace-pre-line text-lg leading-relaxed text-ink/90">{book.description}</p>
+
+          <dl className="mt-10 grid grid-cols-2 gap-x-8 border-t border-deep/20">
             {facts.map(([k, v]) => (
-              <div key={k} className="bg-paper p-4">
+              <div key={k} className="border-b border-deep/10 py-4">
                 <dt className="text-sm text-muted">{k}</dt>
                 <dd className="mt-0.5 truncate font-semibold text-deep">{v}</dd>
               </div>
             ))}
           </dl>
-
-          <div className="mt-10">
-            <BorrowButton book={book} user={{ name: user.name, email: user.email }} />
-          </div>
         </div>
       </div>
+
+      {related.length > 0 && (
+        <section className="mt-28" aria-label={`More in ${book.category}`}>
+          <h2 className="section-title">
+            More in <em>{book.category}</em>
+          </h2>
+          <ul className="mt-12 grid grid-cols-2 gap-x-4 gap-y-12 sm:gap-x-8 lg:grid-cols-4">
+            {related.map((b) => (
+              <li key={b._id}>
+                <BookCard book={b} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }

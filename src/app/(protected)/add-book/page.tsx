@@ -10,7 +10,7 @@ export default async function AddBookPage() {
   if (!user) redirect("/login?callbackUrl=%2Fadd-book");
   return (
     <div className="mx-auto max-w-3xl px-5 py-14 sm:px-8 lg:py-20">
-      <h1 className="display !text-[clamp(2.4rem,5vw,4rem)]">Add a book</h1>
+      <h1 className="page-title">Add a <em>book</em></h1>
       <p className="mt-3 max-w-xl text-lg text-muted">Shelve a book for other readers. It appears in All Books right away.</p>
       <div className="mt-10">
         <AddBookForm account={{ name: user.name, email: user.email, image: user.image }} />

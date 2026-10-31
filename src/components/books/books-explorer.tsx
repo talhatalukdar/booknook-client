@@ -87,7 +87,7 @@ export function BooksExplorer() {
             type="search"
             aria-label="Search books by title or author"
             placeholder="Search by title or author"
-            className="pl-10"
+            className="rounded-full pl-11"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -96,7 +96,7 @@ export function BooksExplorer() {
           aria-label="Sort books"
           value={sort}
           onChange={(e) => update({ sort: e.target.value === "newest" ? null : e.target.value })}
-          className="h-11 rounded-control border border-line bg-paper px-3.5 text-sm font-medium text-ink"
+          className="h-11 rounded-full border border-line bg-paper px-5 text-sm font-semibold text-deep"
         >
           {SORTS.map((s) => (
             <option key={s.value} value={s.value}>
@@ -114,8 +114,8 @@ export function BooksExplorer() {
             aria-pressed={category === c}
             onClick={() => update({ category: c || null })}
             className={cn(
-              "h-10 cursor-pointer rounded-full border px-4 text-sm font-semibold transition-colors",
-              category === c ? "border-forest bg-forest text-cream" : "border-line bg-paper text-forest hover:border-forest/50",
+              "h-10 cursor-pointer rounded-full border px-5 text-sm font-semibold transition-colors",
+              category === c ? "border-deep bg-deep text-cream" : "border-line bg-paper text-deep hover:border-deep/50",
             )}
           >
             {c || "All"}
@@ -141,7 +141,7 @@ export function BooksExplorer() {
       ) : loading && !data ? (
         <Grid>
           {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-[27rem] rounded-[4px]" />
+            <Skeleton key={i} className="h-[30rem] rounded-[20px]" />
           ))}
         </Grid>
       ) : data && data.items.length === 0 ? (
@@ -192,14 +192,14 @@ export function BooksExplorer() {
 }
 
 function Grid({ children }: { children: React.ReactNode }) {
-  return <div className="mt-3 grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3">{children}</div>;
+  return <div className="mt-6 grid auto-rows-fr grid-cols-2 gap-x-4 gap-y-12 sm:gap-x-8 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-16">{children}</div>;
 }
 
 function State({ icon, title, text, children }: { icon: React.ReactNode; title: string; text: string; children?: React.ReactNode }) {
   return (
-    <div className="mt-3 flex flex-col items-center rounded-[4px] border border-dashed border-forest/30 px-6 py-16 text-center">
+    <div className="mt-3 flex flex-col items-center rounded-[20px] border border-dashed border-forest/30 px-6 py-16 text-center">
       {icon}
-      <h2 className="mt-4 font-serif text-2xl">{title}</h2>
+      <h2 className="mt-4 font-serif text-3xl">{title}</h2>
       <p className="mt-2 max-w-md text-muted">{text}</p>
       <div className="mt-6">{children}</div>
     </div>

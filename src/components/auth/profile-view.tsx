@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Avatar } from "@/components/shared/avatar";
+import { AvatarUploader } from "./avatar-uploader";
 import { Button } from "@/components/ui/button";
 import { FieldError, Input, Label } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -33,7 +33,7 @@ export function ProfileView({ user }: { user: SessionUser }) {
     formState: { errors, isSubmitting, isDirty },
   } = useForm<ProfileValues>({
     resolver: zodResolver(profileSchema),
-    defaultValues: { name: user.name, photoUrl: user.image ?? "" },
+    defaultValues: { name: user.name },
   });
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export function ProfileView({ user }: { user: SessionUser }) {
   }, []);
 
   async function onSubmit(v: ProfileValues) {
-    const { error } = await authClient.updateUser({ name: v.name, image: v.photoUrl });
+    const { error } = await authClient.updateUser({ name: v.name });
     if (error) {
       toast.error(error.message || "Could not update your profile");
       return;
@@ -78,12 +78,10 @@ export function ProfileView({ user }: { user: SessionUser }) {
   return (
     <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
       <section aria-label="Account">
-        <div className="flex items-center gap-5">
-          <Avatar name={user.name} src={user.image} className="size-20 text-2xl" />
-          <div className="min-w-0">
-            <h2 className="truncate font-serif text-3xl text-deep">{user.name}</h2>
-            <p className="truncate text-muted">{user.email}</p>
-          </div>
+        <AvatarUploader name={user.name} image={user.image} />
+        <div className="mt-8 min-w-0">
+          <h2 className="truncate font-serif text-5xl leading-none text-deep">{user.name}</h2>
+          <p className="mt-2 truncate text-muted">{user.email}</p>
         </div>
         {user.createdAt && (
           <p className="mt-5 flex items-center gap-2 text-sm text-muted">
@@ -91,19 +89,19 @@ export function ProfileView({ user }: { user: SessionUser }) {
           </p>
         )}
 
-        <h3 className="mt-10 font-serif text-2xl">Reading activity</h3>
+        <h3 className="mt-12 font-serif text-4xl">Reading <em>activity</em></h3>
         {statsError ? (
           <p className="mt-3 text-muted">Your activity could not be loaded right now.</p>
         ) : !stats ? (
           <div className="mt-4 grid grid-cols-3 gap-3" aria-busy>
             {[0, 1, 2].map((i) => (
-              <Skeleton key={i} className="h-28 rounded-[4px]" />
+              <Skeleton key={i} className="h-28 rounded-[20px]" />
             ))}
           </div>
         ) : (
           <dl className="mt-4 grid grid-cols-3 gap-3">
             {cards.map((c) => (
-              <div key={c.label} className="rounded-[4px] border border-line bg-paper p-4">
+              <div key={c.label} className="rounded-[20px] border border-line bg-paper p-4">
                 <c.icon className="size-5 text-forest" strokeWidth={1.5} />
                 <dd className="mt-3 text-4xl font-semibold leading-none text-deep tabular-nums">{c.value}</dd>
                 <dt className="mt-1 text-sm text-muted">{c.label}</dt>
@@ -114,18 +112,13 @@ export function ProfileView({ user }: { user: SessionUser }) {
         )}
       </section>
 
-      <section aria-label="Edit profile" className="rounded-[4px] border border-line bg-paper p-6 sm:p-8">
-        <h3 className="font-serif text-2xl">Edit profile</h3>
+      <section aria-label="Edit profile" className="rounded-[24px] border border-line bg-paper p-6 sm:p-8">
+        <h3 className="font-serif text-4xl">Edit <em>profile</em></h3>
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-6 space-y-5">
           <div>
             <Label htmlFor="name">Full name</Label>
             <Input id="name" autoComplete="name" aria-invalid={!!errors.name} {...register("name")} />
             <FieldError message={errors.name?.message} />
-          </div>
-          <div>
-            <Label htmlFor="photoUrl">Photo URL</Label>
-            <Input id="photoUrl" type="url" aria-invalid={!!errors.photoUrl} {...register("photoUrl")} />
-            <FieldError message={errors.photoUrl?.message} />
           </div>
           <div>
             <Label htmlFor="email">Email</Label>

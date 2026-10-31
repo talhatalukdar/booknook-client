@@ -15,9 +15,9 @@ import { BookCover } from "./book-cover";
 // Days are counted in UTC so the date sent always matches the server's 1 to 30 day window.
 const utcDate = (offset: number) => new Date(Date.now() + offset * 86_400_000).toISOString().slice(0, 10);
 
-export function BorrowButton({ book, user }: { book: Book; user: { name: string; email: string } }) {
+export function BorrowButton({ book, user, autoOpen = false }: { book: Book; user: { name: string; email: string }; autoOpen?: boolean }) {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(autoOpen);
   const [busy, setBusy] = useState(false);
   const [alreadyBorrowed, setAlreadyBorrowed] = useState(false);
   const [returnDate, setReturnDate] = useState(() => utcDate(7));
@@ -65,8 +65,8 @@ export function BorrowButton({ book, user }: { book: Book; user: { name: string;
 
   if (soldOut || alreadyBorrowed) {
     return (
-      <Button size="lg" disabled className="w-full sm:w-auto">
-        {alreadyBorrowed ? "You have borrowed this book" : "Not Available"}
+      <Button size="lg" variant="outline" disabled aria-disabled className="w-full border-line bg-line/60 text-muted sm:w-auto">
+        {alreadyBorrowed ? "You have borrowed this book" : "Currently Unavailable"}
       </Button>
     );
   }
