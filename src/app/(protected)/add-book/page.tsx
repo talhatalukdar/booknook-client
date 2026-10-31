@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { AddBookForm } from "@/components/books/add-book-form";
+import { redirect } from "next/navigation";
 import { getServerUser } from "@/lib/session";
 
 export const metadata: Metadata = { title: "Add Book" };
 
 export default async function AddBookPage() {
-  const user = (await getServerUser())!;
+  const user = await getServerUser();
+  if (!user) redirect("/login?callbackUrl=%2Fadd-book");
   return (
     <div className="mx-auto max-w-3xl px-5 py-14 sm:px-8 lg:py-20">
       <h1 className="display !text-[clamp(2.4rem,5vw,4rem)]">Add a book</h1>
