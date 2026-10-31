@@ -1,26 +1,98 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* "Reading Room" design tokens */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-forest: #174b38;
+  --color-deep: #10372b;
+  --color-gold: #c6a15b;
+  --color-cream: #f8f6f0;
+  --color-paper: #ffffff;
+  --color-ink: #202820;
+  --color-muted: #666960; /* secondary text, darkened from #74776F to keep AA contrast on cream */
+  --color-line: #e8e5dc;
+  --color-danger: #dc2626;
+  --color-success: #15803d;
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), Georgia, "Times New Roman", serif;
+
+  --radius-control: 6px;
+  --radius-cover: 2px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.08;
+  color: var(--color-deep);
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-deep);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Shared heading scale so every section heading matches */
+.display {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.02;
+  font-size: clamp(2.6rem, 6.2vw, 5rem);
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+/* Hero slider (Swiper) skin */
+.hero-swiper .swiper-pagination {
+  position: static;
+  width: auto;
+  text-align: left;
+}
+.hero-swiper .swiper-pagination-bullet {
+  width: 2rem;
+  height: 3px;
+  border-radius: 0;
+  background: var(--color-forest);
+  opacity: 0.25;
+  transition: opacity 0.2s, background 0.2s;
+}
+.hero-swiper .swiper-pagination-bullet-active {
+  opacity: 1;
+  background: var(--color-forest);
 }
