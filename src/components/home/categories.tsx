@@ -16,9 +16,9 @@ export function Categories() {
   return (
     <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
       <SectionHeading title="Explore categories" text="Start from a subject and see what readers have shelved under it." />
-      <ul className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
-        {categories.map((c) => (
-          <li key={c.name} className="first:col-span-2 first:md:col-span-1 first:lg:col-span-1">
+      <ul className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-6 lg:grid-cols-5">
+        {categories.map((c, i) => (
+          <li key={c.name} className={i === 0 ? "col-span-2 md:col-span-2 lg:col-span-1" : i < 3 ? "md:col-span-2 lg:col-span-1" : "md:col-span-3 lg:col-span-1"}>
             <Link
               href={`/books?category=${c.name}`}
               style={{ backgroundColor: categoryTint[c.name] }}

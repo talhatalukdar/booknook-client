@@ -47,7 +47,11 @@ npm run dev                  # http://localhost:3000
 npm run lint && npx tsc --noEmit && npm run build
 ```
 
-## Deployment (Vercel)
+## Deployment
+
+Full step-by-step guide with a verification checklist: see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+### Vercel summary
 
 Import the repo, set all variables above (production URLs, no trailing slashes), add
 `https://<app>.vercel.app/api/auth/callback/google` to the Google OAuth redirect URIs, then set the
