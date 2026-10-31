@@ -14,8 +14,9 @@
 - Real availability (`availableCopies` / `totalCopies`) from the database, never hardcoded
 - Responsive layout, skeleton and error states, Sonner toasts, custom 404, per-page titles
 
-> Status: homepage, navbar/footer, design system, Login, Register, 404 and route protection are
-> implemented. All Books, Book Details, Add Book, My Books, My Borrows and Profile are the next phase.
+> Status: homepage, navbar/footer, design system, Login, Register, All Books (search, category
+> filter, sort, pagination), Book Details, the Borrow modal, 404 and route protection are
+> implemented and tested. Add Book, My Books, My Borrows and Profile are the next phase.
 
 ## Stack
 
@@ -51,6 +52,14 @@ npm run lint && npx tsc --noEmit && npm run build
 Import the repo, set all variables above (production URLs, no trailing slashes), add
 `https://<app>.vercel.app/api/auth/callback/google` to the Google OAuth redirect URIs, then set the
 same app URL as `CLIENT_URL` and `BETTER_AUTH_URL` on the Render server.
+
+## End-to-end test
+
+`scripts/e2e/booknook_e2e.py` (Python + Playwright) drives the real stack: BetterAuth signup and
+login, seeding through `POST /books` with a real JWT, search/filter/pagination, logged-out
+redirect, borrow, duplicate and out-of-stock rejection, and responsive overflow checks. Start
+MongoDB, the Express server (`BETTER_AUTH_URL=http://localhost:3000`) and this app
+(`npm run build && npm start`), then run `python3 scripts/e2e/booknook_e2e.py`.
 
 ## Screenshots
 
