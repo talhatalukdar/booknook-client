@@ -16,7 +16,7 @@
 
 > Status: homepage, design system, Login/Register, All Books, Book Details, Borrow modal,
 > **Add Book (imgbb upload), My Books (edit/delete), My Borrows (return and history)** and route
-> protection are implemented and tested. Profile page, dark mode and deployment are still open.
+> protection, the **Profile page** and a deployment guide are implemented and tested. Dark mode and the actual deployment are still open.
 
 ## Stack
 
@@ -62,6 +62,14 @@ same app URL as `CLIENT_URL` and `BETTER_AUTH_URL` on the Render server.
 Covers are uploaded to imgbb through this app's own `/api/upload` route. The imgbb key
 (`IMGBB_API_KEY`) is server-side only, so it never appears in browser code. The route requires a
 session, accepts JPG/PNG/WebP/GIF up to 4 MB, checks the file signature and rate-limits uploads.
+
+### Trying real imgbb locally
+
+1. In `booknook-client/.env.local` add `IMGBB_API_KEY=<your key>` and make sure `IMGBB_API_URL`
+   is **not** set (it only exists for the test stub).
+2. Restart `npm run dev` (env files are read at startup).
+3. Log in, open **Add Book**, choose a real cover and wait for "Cover uploaded".
+4. Submit, then check the cover on All Books, Book Details, My Books and My Borrows.
 
 ## End-to-end test
 

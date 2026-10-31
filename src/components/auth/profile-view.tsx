@@ -105,7 +105,7 @@ export function ProfileView({ user }: { user: SessionUser }) {
             {cards.map((c) => (
               <div key={c.label} className="rounded-[4px] border border-line bg-paper p-4">
                 <c.icon className="size-5 text-forest" strokeWidth={1.5} />
-                <dd className="mt-3 font-serif text-4xl font-semibold leading-none text-deep">{c.value}</dd>
+                <dd className="mt-3 text-4xl font-semibold leading-none text-deep tabular-nums">{c.value}</dd>
                 <dt className="mt-1 text-sm text-muted">{c.label}</dt>
                 {c.note && <p className="mt-1 text-sm font-semibold text-danger">{c.note}</p>}
               </div>
