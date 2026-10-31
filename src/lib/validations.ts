@@ -57,3 +57,14 @@ export const bookFormSchema = z.object({
     .max(1000, "At most 1000 copies"),
 });
 export type BookFormValues = z.infer<typeof bookFormSchema>;
+
+export const profileSchema = z.object({
+  name: z.string().trim().min(2, "Enter your full name").max(80, "Name is too long"),
+  photoUrl: z
+    .string()
+    .trim()
+    .min(1, "Photo URL is required")
+    .url("Enter a valid URL")
+    .refine((v) => /^https?:\/\//i.test(v), "URL must start with http:// or https://"),
+});
+export type ProfileValues = z.infer<typeof profileSchema>;

@@ -7,6 +7,7 @@ export interface SessionUser {
   name: string;
   email: string;
   image: string | null;
+  createdAt?: string;
 }
 
 /** Server-side session lookup (cookie -> database). Returns null when logged out or on failure. */
@@ -17,8 +18,8 @@ export const getServerUser = cache(async (): Promise<SessionUser | null> => {
   try {
     const session = await auth.api.getSession({ headers: requestHeaders });
     if (!session) return null;
-    const { id, name, email, image } = session.user;
-    return { id, name, email, image: image ?? null };
+    const { id, name, email, image, createdAt } = session.user;
+    return { id, name, email, image: image ?? null, createdAt: new Date(createdAt).toISOString() };
   } catch {
     return null;
   }
