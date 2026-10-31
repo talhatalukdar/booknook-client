@@ -23,7 +23,7 @@ async function load(id: string): Promise<Book | null> {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const book = await load((await params).id).catch(() => null);
-  return { title: book ? `${book.title} | Book Details` : "Book Details" };
+  return { title: book ? `Book Details: ${book.title}` : "Book Details" };
 }
 
 export default async function BookDetailsPage({ params }: Props) {
