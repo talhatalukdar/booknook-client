@@ -14,9 +14,9 @@
 - Real availability (`availableCopies` / `totalCopies`) from the database, never hardcoded
 - Responsive layout, skeleton and error states, Sonner toasts, custom 404, per-page titles
 
-> Status: homepage, navbar/footer, design system, Login, Register, All Books (search, category
-> filter, sort, pagination), Book Details, the Borrow modal, 404 and route protection are
-> implemented and tested. Add Book, My Books, My Borrows and Profile are the next phase.
+> Status: homepage, design system, Login/Register, All Books, Book Details, Borrow modal,
+> **Add Book (imgbb upload), My Books (edit/delete), My Borrows (return and history)** and route
+> protection are implemented and tested. Profile page, dark mode and deployment are still open.
 
 ## Stack
 
@@ -35,7 +35,7 @@ audience against that JWKS; identity is never taken from the request body.
 
 Copy `.env.example` to `.env.local`; every variable is documented there
 (`BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `MONGODB_URI`, `DB_NAME`, `GOOGLE_CLIENT_ID`,
-`GOOGLE_CLIENT_SECRET`, `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_IMGBB_API_KEY`).
+`GOOGLE_CLIENT_SECRET`, `NEXT_PUBLIC_API_URL`, `IMGBB_API_KEY`).
 `BETTER_AUTH_URL` here must equal the server's `BETTER_AUTH_URL`.
 
 ## Development
@@ -53,13 +53,19 @@ Import the repo, set all variables above (production URLs, no trailing slashes),
 `https://<app>.vercel.app/api/auth/callback/google` to the Google OAuth redirect URIs, then set the
 same app URL as `CLIENT_URL` and `BETTER_AUTH_URL` on the Render server.
 
+## Image uploads
+
+Covers are uploaded to imgbb through this app's own `/api/upload` route. The imgbb key
+(`IMGBB_API_KEY`) is server-side only, so it never appears in browser code. The route requires a
+session, accepts JPG/PNG/WebP/GIF up to 4 MB, checks the file signature and rate-limits uploads.
+
 ## End-to-end test
 
-`scripts/e2e/booknook_e2e.py` (Python + Playwright) drives the real stack: BetterAuth signup and
+`scripts/e2e/booknook_e2e.py` (browse, borrow) and `scripts/e2e/booknook_phase6_e2e.py` (add, edit, delete, return, isolation), both Python + Playwright, drives the real stack: BetterAuth signup and
 login, seeding through `POST /books` with a real JWT, search/filter/pagination, logged-out
 redirect, borrow, duplicate and out-of-stock rejection, and responsive overflow checks. Start
 MongoDB, the Express server (`BETTER_AUTH_URL=http://localhost:3000`) and this app
-(`npm run build && npm start`), then run `python3 scripts/e2e/booknook_e2e.py`.
+(`npm run build && npm start`), start `node scripts/e2e/imgbb-stub.js` and set `IMGBB_API_KEY=TESTKEY-SECRET-123 IMGBB_API_URL=http://localhost:9999/1/upload` (a test-only stand-in for imgbb), then run the scripts.
 
 ## Screenshots
 

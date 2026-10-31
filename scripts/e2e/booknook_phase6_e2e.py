@@ -25,7 +25,7 @@ def call(page,method,path,body=None):
     t=token(page)
     return page.evaluate("""async ([m,u,b,t])=>{const r=await fetch(u,{method:m,headers:{'Content-Type':'application/json',Authorization:'Bearer '+t},body:b?JSON.stringify(b):undefined});return {status:r.status,json:await r.json()}}""",[method,API+path,body,t])
 def user_page(br,name,email,w=1440,h=900):
-    ctx=br.new_context(viewport={"width":w,"height":h}); pg=ctx.new_page(); register(pg,name,email); login(pg,email); return pg
+    ctx=br.new_context(viewport={"width":w,"height":h}); pg=ctx.new_page(); register(pg,name,email); time.sleep(4); login(pg,email); time.sleep(4); return pg
 
 stamp=str(int(time.time())); TITLE=f"Phase Six Atlas {stamp}"; EDITED=f"Phase Six Atlas Revised {stamp}"
 with sync_playwright() as p:
@@ -108,7 +108,7 @@ with sync_playwright() as p:
     alice.goto(BASE+"/my-borrows"); alice.wait_for_selector("text=You have not borrowed anything yet")
     check("ownership isolation: Alice's My Borrows is empty", True)
     bob.click(f"li:has-text('{EDITED}') >> button:has-text('Return Book')"); bob.get_by_role("dialog").get_by_role("button",name="Return Book").click()
-    bob.wait_for_selector(f"li:has-text('{EDITED}') >> text=Returned",timeout=10000)
+    bob.locator(f"li:has-text('{EDITED}') >> span:text-is('Returned')").wait_for(timeout=10000)
     check("return via UI: stock restored exactly once (3 -> 4)", api_json(f"/books/{bid}")["availableCopies"]==4)
     check("history preserved: row stays with Returned status, no Return button", bob.locator(f"li:has-text('{EDITED}') >> button:has-text('Return Book')").count()==0)
     bobs=call(bob,"GET","/borrows")["json"]["data"]; rid=[x for x in bobs if x["status"]=="returned"][0]["_id"]
