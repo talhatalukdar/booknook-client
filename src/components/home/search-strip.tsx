@@ -25,13 +25,13 @@ export function SearchStrip() {
       <form
         onSubmit={submit}
         role="search"
-        className="flex flex-col gap-2 rounded-[28px] border border-line bg-paper p-2 shadow-[0_18px_40px_-24px_rgba(14,52,39,0.45)] sm:flex-row sm:items-center sm:rounded-full"
+        className="flex flex-col gap-2 rounded-[28px] border border-line bg-paper p-2 shadow-[0_18px_40px_-24px_rgba(26,28,27,0.45)] sm:flex-row sm:items-center sm:rounded-full"
       >
         <select
           aria-label="Category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="h-12 rounded-full bg-sand px-5 text-sm font-semibold text-deep sm:w-52"
+          className="h-12 rounded-full bg-mist px-5 text-sm font-semibold text-night sm:w-52"
         >
           <option value="">All categories</option>
           {CATEGORIES.map((c) => (
@@ -47,7 +47,7 @@ export function SearchStrip() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Find a book by title or author"
-            className="h-12 w-full rounded-full bg-transparent pl-11 pr-4 text-base placeholder:text-muted/80 focus-visible:outline-2 focus-visible:outline-gold"
+            className="h-12 w-full rounded-full bg-transparent pl-11 pr-4 text-base placeholder:text-muted/80 focus-visible:outline-2 focus-visible:outline-teal"
           />
         </label>
         <Button type="submit" size="lg" className="sm:px-9">

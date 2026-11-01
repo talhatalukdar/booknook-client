@@ -17,10 +17,10 @@ import type { Borrow } from "@/types";
 function StatusBadge({ b }: { b: Borrow }) {
   const s =
     b.status === "returned"
-      ? { label: "Returned", cls: "bg-forest/10 text-forest" }
+      ? { label: "Returned", cls: "bg-primary/10 text-primary" }
       : b.overdue
         ? { label: "Overdue", cls: "bg-danger/10 text-danger" }
-        : { label: "Borrowed", cls: "bg-gold/25 text-[#6d5214]" };
+        : { label: "Borrowed", cls: "bg-teal/25 text-[#6d5214]" };
   return <span className={cn("inline-flex h-7 items-center rounded-full px-3 text-sm font-semibold", s.cls)}>{s.label}</span>;
 }
 
@@ -69,7 +69,7 @@ export function MyBorrowsList() {
 
   if (error)
     return (
-      <Notice icon={<CloudOff className="size-9 text-forest" strokeWidth={1.5} />} title="Your borrows could not be loaded" text={error}>
+      <Notice icon={<CloudOff className="size-9 text-primary" strokeWidth={1.5} />} title="Your borrows could not be loaded" text={error}>
         <Button variant="outline" size="sm" onClick={() => setReload((n) => n + 1)}>
           Try again
         </Button>
@@ -85,7 +85,7 @@ export function MyBorrowsList() {
     );
   if (data.length === 0)
     return (
-      <Notice icon={<Library className="size-9 text-forest" strokeWidth={1.5} />} title="You have not borrowed anything yet" text="Pick a book from the shelf and it will show up here.">
+      <Notice icon={<Library className="size-9 text-primary" strokeWidth={1.5} />} title="You have not borrowed anything yet" text="Pick a book from the shelf and it will show up here.">
         <Button asChild>
           <Link href="/books">Browse Books</Link>
         </Button>
@@ -115,7 +115,7 @@ export function MyBorrowsList() {
               <BookCover src={b.bookImage} title={b.bookTitle} author="" sizes="72px" />
             </div>
             <div className="min-w-0">
-              <h2 className="font-serif text-3xl leading-tight text-deep">
+              <h2 className="font-display text-3xl font-bold leading-tight text-night">
                 <Link href={`/books/${b.bookId}`} className="hover:underline">
                   {b.bookTitle}
                 </Link>
@@ -147,7 +147,7 @@ export function MyBorrowsList() {
         <DialogContent>
           <DialogTitle>Return this book?</DialogTitle>
           <DialogDescription>
-            <span className="font-semibold text-deep">{returning?.bookTitle}</span> goes back on the shelf and becomes available to other readers.
+            <span className="font-semibold text-night">{returning?.bookTitle}</span> goes back on the shelf and becomes available to other readers.
           </DialogDescription>
           <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
             <DialogClose asChild>

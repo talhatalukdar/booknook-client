@@ -83,7 +83,7 @@ export function MyBooksList() {
 
   if (error)
     return (
-      <Notice icon={<CloudOff className="size-9 text-forest" strokeWidth={1.5} />} title="Your books could not be loaded" text={error}>
+      <Notice icon={<CloudOff className="size-9 text-primary" strokeWidth={1.5} />} title="Your books could not be loaded" text={error}>
         <Button variant="outline" size="sm" onClick={() => setReload((n) => n + 1)}>
           Try again
         </Button>
@@ -99,7 +99,7 @@ export function MyBooksList() {
     );
   if (data.pagination.total === 0)
     return (
-      <Notice icon={<BookPlus className="size-9 text-forest" strokeWidth={1.5} />} title="You have not added any books yet" text="Books you add show up here, where you can edit or remove them.">
+      <Notice icon={<BookPlus className="size-9 text-primary" strokeWidth={1.5} />} title="You have not added any books yet" text="Books you add show up here, where you can edit or remove them.">
         <Button asChild>
           <Link href="/add-book">Add a Book</Link>
         </Button>
@@ -121,15 +121,15 @@ export function MyBooksList() {
                   <BookCover src={b.image} title={b.title} author={b.author} sizes="90px" />
                 </div>
                 <div className="min-w-0 sm:order-none">
-                  <p className="text-sm font-semibold text-forest">{b.category}</p>
-                  <h2 className="font-serif text-3xl leading-tight text-deep">
+                  <p className="text-sm font-semibold text-primary">{b.category}</p>
+                  <h2 className="font-display text-3xl font-bold leading-tight text-night">
                     <Link href={`/books/${b._id}`} className="hover:underline">
                       {b.title}
                     </Link>
                   </h2>
                   <p className="truncate text-muted">by {b.author}</p>
                   <p className="mt-2 text-sm">
-                    <span className="font-semibold text-deep">{b.availableCopies}</span> available of {b.totalCopies}
+                    <span className="font-semibold text-night">{b.availableCopies}</span> available of {b.totalCopies}
                     {onLoan > 0 && <span className="text-muted"> ({onLoan} on loan)</span>}
                   </p>
                 </div>
@@ -198,7 +198,7 @@ export function MyBooksList() {
         <DialogContent>
           <DialogTitle>Delete this book?</DialogTitle>
           <DialogDescription>
-            <span className="font-semibold text-deep">{deleting?.title}</span> will be removed from the library for everyone.
+            <span className="font-semibold text-night">{deleting?.title}</span> will be removed from the library for everyone.
           </DialogDescription>
           <p className="mt-4 flex gap-2 rounded-2xl bg-danger/10 p-3 text-sm text-danger">
             <TriangleAlert className="mt-0.5 size-4 shrink-0" /> This cannot be undone. Books that are currently borrowed cannot be deleted.
@@ -222,9 +222,9 @@ export function MyBooksList() {
 
 export function Notice({ icon, title, text, children }: { icon: React.ReactNode; title: string; text: string; children?: React.ReactNode }) {
   return (
-    <div className="flex flex-col items-center rounded-[20px] border border-dashed border-forest/30 px-6 py-16 text-center">
+    <div className="flex flex-col items-center rounded-[20px] border border-dashed border-primary/30 px-6 py-16 text-center">
       {icon}
-      <h2 className="mt-4 font-serif text-3xl">{title}</h2>
+      <h2 className="mt-4 font-display text-3xl">{title}</h2>
       <p className="mt-2 max-w-md text-muted">{text}</p>
       <div className="mt-6">{children}</div>
     </div>

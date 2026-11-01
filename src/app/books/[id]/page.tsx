@@ -53,9 +53,9 @@ export default async function BookDetailsPage({ params, searchParams }: Props) {
 
   return (
     <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:py-20">
-      <RecordView book={{ id: book._id, title: book.title, author: book.author, image: book.image }} />
+      <RecordView userId={user.id} book={{ id: book._id, title: book.title, author: book.author, image: book.image }} />
       <nav aria-label="Breadcrumb" className="mb-10 text-sm text-muted">
-        <Link href="/books" className="font-semibold text-deep underline underline-offset-4">
+        <Link href="/books" className="font-semibold text-night underline underline-offset-4">
           All books
         </Link>{" "}
         / {book.category}
@@ -71,8 +71,8 @@ export default async function BookDetailsPage({ params, searchParams }: Props) {
 
         <div>
           <p className="eyebrow">{book.category}</p>
-          <h1 className="page-title mt-3 !text-[clamp(2.8rem,6vw,5rem)]">{book.title}</h1>
-          <p className="mt-3 font-serif text-3xl italic text-forest">by {book.author}</p>
+          <h1 className="page-title mt-3 !font-bold !text-[clamp(3rem,6.5vw,5.5rem)]">{book.title}</h1>
+          <p className="mt-3 font-display text-3xl font-semibold text-brand">by {book.author}</p>
 
           <div className="mt-8 rounded-[20px] border border-line bg-paper p-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
@@ -94,11 +94,11 @@ export default async function BookDetailsPage({ params, searchParams }: Props) {
 
           <p className="mt-10 max-w-prose whitespace-pre-line text-lg leading-relaxed text-ink/90">{book.description}</p>
 
-          <dl className="mt-10 grid grid-cols-2 gap-x-8 border-t border-deep/20">
+          <dl className="mt-10 grid grid-cols-2 gap-x-8 border-t border-night/20">
             {facts.map(([k, v]) => (
-              <div key={k} className="border-b border-deep/10 py-4">
+              <div key={k} className="border-b border-night/10 py-4">
                 <dt className="text-sm text-muted">{k}</dt>
-                <dd className="mt-0.5 truncate font-semibold text-deep">{v}</dd>
+                <dd className="mt-0.5 truncate font-semibold text-night">{v}</dd>
               </div>
             ))}
           </dl>

@@ -13,10 +13,10 @@ export const SheetDescription = Dialog.Description;
 export function SheetContent({ className, children, ...props }: React.ComponentProps<typeof Dialog.Content>) {
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className="fixed inset-0 z-50 bg-deep/55" />
+      <Dialog.Overlay className="fixed inset-0 z-50 bg-night/55" />
       <Dialog.Content
         className={cn(
-          "fixed inset-y-0 right-0 z-50 flex w-[min(22rem,90vw)] flex-col bg-deep p-6 text-cream shadow-xl focus:outline-none",
+          "fixed inset-y-0 right-0 z-50 flex w-[min(22rem,90vw)] flex-col bg-night p-6 text-canvas shadow-xl focus:outline-none",
           className,
         )}
         {...props}

@@ -25,7 +25,7 @@ export function BookCover({
 }) {
   const [failed, setFailed] = useState(false);
   return (
-    <div className={cn("relative aspect-[2/3] w-full overflow-hidden rounded-cover bg-forest shadow-cover", className)}>
+    <div className={cn("relative aspect-[2/3] w-full overflow-hidden rounded-cover bg-primary shadow-cover", className)}>
       {src && !failed ? (
         <Image
           src={src}
@@ -38,10 +38,10 @@ export function BookCover({
           onError={() => setFailed(true)}
         />
       ) : (
-        <div className="flex h-full flex-col justify-between bg-[radial-gradient(circle_at_30%_20%,#23634b,#0e3427)] p-[10%] text-center text-cream">
-          <span className="mx-auto h-px w-6 bg-gold" />
-          <span className="font-serif text-[1.35em] leading-[1.05] [text-wrap:balance]">{title}</span>
-          <span className="text-[0.7em] tracking-wide text-cream/70">{author}</span>
+        <div className="flex h-full flex-col justify-between bg-[radial-gradient(circle_at_30%_20%,#23634b,#0e3427)] p-[10%] text-center text-canvas">
+          <span className="mx-auto h-px w-6 bg-teal" />
+          <span className="font-display text-[1.5em] font-bold leading-[1] [text-wrap:balance]">{title}</span>
+          <span className="text-[0.7em] tracking-wide text-canvas/70">{author}</span>
         </div>
       )}
       <span aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-[7%] bg-gradient-to-r from-black/25 via-white/15 to-transparent" />

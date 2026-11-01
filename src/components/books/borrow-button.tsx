@@ -66,7 +66,7 @@ export function BorrowButton({ book, user, autoOpen = false }: { book: Book; use
   if (soldOut || alreadyBorrowed) {
     return (
       <Button size="lg" variant="outline" disabled aria-disabled className="w-full border-line bg-line/60 text-muted sm:w-auto">
-        {alreadyBorrowed ? "You have borrowed this book" : "Currently Unavailable"}
+        {alreadyBorrowed ? "You have borrowed this book" : "Not Available"}
       </Button>
     );
   }
@@ -85,7 +85,7 @@ export function BorrowButton({ book, user, autoOpen = false }: { book: Book; use
         <div className="mt-6 grid grid-cols-[6rem_1fr] gap-5">
           <BookCover src={book.image} title={book.title} author={book.author} sizes="96px" />
           <div className="min-w-0">
-            <p className="font-serif text-2xl leading-tight text-deep">{book.title}</p>
+            <p className="font-display text-2xl leading-tight text-night">{book.title}</p>
             <p className="mt-1 text-muted">by {book.author}</p>
           </div>
         </div>

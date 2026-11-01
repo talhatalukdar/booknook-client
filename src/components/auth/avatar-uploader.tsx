@@ -71,9 +71,9 @@ export function AvatarUploader({ name, image }: { name: string; image: string | 
   return (
     <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
       <div className="relative shrink-0">
-        <Avatar name={name} src={preview ?? image} className="size-28 text-4xl ring-4 ring-sand" />
+        <Avatar name={name} src={preview ?? image} className="size-28 text-4xl ring-4 ring-mist" />
         {saving && (
-          <span className="absolute inset-0 grid place-items-center rounded-full bg-deep/60 text-cream">
+          <span className="absolute inset-0 grid place-items-center rounded-full bg-night/60 text-canvas">
             <Loader2 className="size-7 animate-spin" />
           </span>
         )}
@@ -96,7 +96,7 @@ export function AvatarUploader({ name, image }: { name: string; image: string | 
           </>
         ) : (
           <>
-            <p className="text-sm font-semibold text-deep">Preview. Save to use this photo.</p>
+            <p className="text-sm font-semibold text-night">Preview. Save to use this photo.</p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Button type="button" size="sm" onClick={save} disabled={saving}>
                 {saving ? <Loader2 className="animate-spin" /> : <Check />}

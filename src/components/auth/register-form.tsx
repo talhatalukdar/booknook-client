@@ -88,7 +88,7 @@ export function RegisterForm({ callbackUrl }: { callbackUrl: string }) {
 
       <p className="text-center text-sm text-muted">
         Already have an account?{" "}
-        <Link href="/login" className="font-semibold text-forest underline underline-offset-4">
+        <Link href="/login" className="font-semibold text-primary underline underline-offset-4">
           Login
         </Link>
       </p>

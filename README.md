@@ -22,7 +22,7 @@
 
 Editorial "Reading Room" look built from six reference designs: cream paper, deep forest green and
 gold, arch-shaped cover panels, a light serif with italic accents and pill buttons. Typefaces are
-**Instrument Serif** (headings, book titles) and **Instrument Sans** (interface), self-hosted from
+**Khand** (headings, book titles) and **General Sans** (interface), self-hosted from
 `@fontsource`. Every book card is one shared component. Books with no copies left show a disabled
 "Not Available" control instead of Borrow, and the Express API still rejects borrows without stock.
 Extra features: search strip with category filter, real per-category counts and covers, library

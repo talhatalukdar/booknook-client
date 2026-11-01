@@ -71,8 +71,7 @@ export function HeroSlider({ slideBooks }: { slideBooks: Book[][] }) {
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
 
   return (
-    <section aria-label="Welcome to BookNook" className="relative overflow-hidden">
-      <div aria-hidden className="absolute -right-40 -top-40 size-[34rem] rounded-full bg-sand" />
+    <section aria-label="Welcome to BookNook" className="surface-haze relative overflow-hidden">
       <h1 className="sr-only">BookNook, a small online library</h1>
       <div className="relative mx-auto max-w-7xl px-5 pb-10 pt-10 sm:px-8 lg:pt-16">
         <Swiper

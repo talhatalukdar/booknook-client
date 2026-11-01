@@ -3,67 +3,67 @@
 type Spine = { w: number; h: number; fill: string; band?: string };
 
 const C = {
-  forest: "#1f6a50",
+  primary: "#1f6a50",
   moss: "#2d7a5c",
-  gold: "#C6A15B",
+  teal: "#C6A15B",
   parchment: "#E9E1CF",
   burgundy: "#8a3a43",
   sage: "#8FA79A",
   ink: "#26302a",
-  sand: "#D6C7A1",
+  mist: "#D6C7A1",
 };
 
 const layouts: Record<number, { upper: Spine[]; lower: Spine[]; lean: Spine }> = {
   0: {
     upper: [
-      { w: 26, h: 96, fill: C.parchment, band: C.forest },
-      { w: 20, h: 118, fill: C.burgundy, band: C.gold },
+      { w: 26, h: 96, fill: C.parchment, band: C.primary },
+      { w: 20, h: 118, fill: C.burgundy, band: C.teal },
       { w: 30, h: 104, fill: C.sage },
-      { w: 22, h: 124, fill: C.gold, band: C.ink },
+      { w: 22, h: 124, fill: C.teal, band: C.ink },
     ],
     lower: [
-      { w: 28, h: 130, fill: C.moss, band: C.gold },
+      { w: 28, h: 130, fill: C.moss, band: C.teal },
       { w: 22, h: 112, fill: C.parchment },
       { w: 32, h: 138, fill: C.burgundy, band: C.parchment },
-      { w: 20, h: 120, fill: C.sand, band: C.forest },
+      { w: 20, h: 120, fill: C.mist, band: C.primary },
       { w: 26, h: 134, fill: C.sage, band: C.ink },
-      { w: 24, h: 108, fill: C.gold },
+      { w: 24, h: 108, fill: C.teal },
     ],
     lean: { w: 26, h: 126, fill: C.parchment, band: C.burgundy },
   },
   1: {
     upper: [
-      { w: 30, h: 110, fill: C.gold, band: C.ink },
+      { w: 30, h: 110, fill: C.teal, band: C.ink },
       { w: 22, h: 100, fill: C.sage },
       { w: 26, h: 122, fill: C.parchment, band: C.burgundy },
-      { w: 20, h: 96, fill: C.moss, band: C.gold },
-      { w: 28, h: 116, fill: C.sand },
+      { w: 20, h: 96, fill: C.moss, band: C.teal },
+      { w: 28, h: 116, fill: C.mist },
     ],
     lower: [
-      { w: 24, h: 126, fill: C.burgundy, band: C.gold },
-      { w: 30, h: 140, fill: C.parchment, band: C.forest },
+      { w: 24, h: 126, fill: C.burgundy, band: C.teal },
+      { w: 30, h: 140, fill: C.parchment, band: C.primary },
       { w: 20, h: 110, fill: C.moss },
-      { w: 28, h: 132, fill: C.gold, band: C.ink },
+      { w: 28, h: 132, fill: C.teal, band: C.ink },
       { w: 22, h: 118, fill: C.sage, band: C.parchment },
     ],
-    lean: { w: 24, h: 130, fill: C.sage, band: C.gold },
+    lean: { w: 24, h: 130, fill: C.sage, band: C.teal },
   },
   2: {
     upper: [
       { w: 24, h: 120, fill: C.sage, band: C.ink },
       { w: 28, h: 100, fill: C.burgundy, band: C.parchment },
-      { w: 20, h: 112, fill: C.gold },
+      { w: 20, h: 112, fill: C.teal },
       { w: 30, h: 124, fill: C.parchment, band: C.moss },
     ],
     lower: [
       { w: 26, h: 110, fill: C.parchment, band: C.burgundy },
-      { w: 22, h: 136, fill: C.moss, band: C.gold },
-      { w: 30, h: 122, fill: C.sand },
-      { w: 24, h: 140, fill: C.burgundy, band: C.gold },
+      { w: 22, h: 136, fill: C.moss, band: C.teal },
+      { w: 30, h: 122, fill: C.mist },
+      { w: 24, h: 140, fill: C.burgundy, band: C.teal },
       { w: 28, h: 114, fill: C.sage, band: C.ink },
-      { w: 20, h: 128, fill: C.gold, band: C.forest },
+      { w: 20, h: 128, fill: C.teal, band: C.primary },
     ],
-    lean: { w: 28, h: 120, fill: C.gold, band: C.ink },
+    lean: { w: 28, h: 120, fill: C.teal, band: C.ink },
   },
 };
 

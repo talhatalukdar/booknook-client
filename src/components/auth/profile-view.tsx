@@ -80,7 +80,7 @@ export function ProfileView({ user }: { user: SessionUser }) {
       <section aria-label="Account">
         <AvatarUploader name={user.name} image={user.image} />
         <div className="mt-8 min-w-0">
-          <h2 className="truncate font-serif text-5xl leading-none text-deep">{user.name}</h2>
+          <h2 className="truncate font-display text-5xl font-semibold leading-none text-night">{user.name}</h2>
           <p className="mt-2 truncate text-muted">{user.email}</p>
         </div>
         {user.createdAt && (
@@ -89,7 +89,7 @@ export function ProfileView({ user }: { user: SessionUser }) {
           </p>
         )}
 
-        <h3 className="mt-12 font-serif text-4xl">Reading <em>activity</em></h3>
+        <h3 className="mt-12 font-display text-4xl">Reading <em>activity</em></h3>
         {statsError ? (
           <p className="mt-3 text-muted">Your activity could not be loaded right now.</p>
         ) : !stats ? (
@@ -102,8 +102,8 @@ export function ProfileView({ user }: { user: SessionUser }) {
           <dl className="mt-4 grid grid-cols-3 gap-3">
             {cards.map((c) => (
               <div key={c.label} className="rounded-[20px] border border-line bg-paper p-4">
-                <c.icon className="size-5 text-forest" strokeWidth={1.5} />
-                <dd className="mt-3 text-4xl font-semibold leading-none text-deep tabular-nums">{c.value}</dd>
+                <c.icon className="size-5 text-primary" strokeWidth={1.5} />
+                <dd className="mt-3 font-display text-5xl font-bold leading-none text-night">{c.value}</dd>
                 <dt className="mt-1 text-sm text-muted">{c.label}</dt>
                 {c.note && <p className="mt-1 text-sm font-semibold text-danger">{c.note}</p>}
               </div>
@@ -113,7 +113,7 @@ export function ProfileView({ user }: { user: SessionUser }) {
       </section>
 
       <section aria-label="Edit profile" className="rounded-[24px] border border-line bg-paper p-6 sm:p-8">
-        <h3 className="font-serif text-4xl">Edit <em>profile</em></h3>
+        <h3 className="font-display text-4xl">Edit <em>profile</em></h3>
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-6 space-y-5">
           <div>
             <Label htmlFor="name">Full name</Label>

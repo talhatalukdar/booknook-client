@@ -3,9 +3,9 @@
 import { useEffect } from "react";
 import { recordRecent, type RecentBook } from "@/lib/recent";
 
-export function RecordView({ book }: { book: RecentBook }) {
+export function RecordView({ book, userId }: { book: RecentBook; userId: string }) {
   useEffect(() => {
-    recordRecent(book);
-  }, [book]);
+    recordRecent(userId, book);
+  }, [book, userId]);
   return null;
 }

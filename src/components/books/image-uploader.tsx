@@ -59,7 +59,7 @@ export function ImageUploader({
         <div
           className={cn(
             "relative aspect-[2/3] w-28 shrink-0 overflow-hidden rounded-cover border border-dashed bg-paper sm:w-32",
-            message ? "border-danger" : "border-forest/40",
+            message ? "border-danger" : "border-primary/40",
           )}
         >
           {shown ? (
@@ -70,7 +70,7 @@ export function ImageUploader({
             </div>
           )}
           {uploading && (
-            <div className="absolute inset-0 grid place-items-center bg-deep/60 text-cream">
+            <div className="absolute inset-0 grid place-items-center bg-night/60 text-canvas">
               <Loader2 className="size-6 animate-spin" />
             </div>
           )}
@@ -92,7 +92,7 @@ export function ImageUploader({
           {uploading && (
             <div className="mt-3" role="progressbar" aria-valuenow={progress ?? 0} aria-valuemin={0} aria-valuemax={100} aria-label="Upload progress">
               <div className="h-1.5 overflow-hidden rounded-full bg-line">
-                <div className="h-full bg-forest transition-[width]" style={{ width: `${progress}%` }} />
+                <div className="h-full bg-primary transition-[width]" style={{ width: `${progress}%` }} />
               </div>
               <p className="mt-1 text-sm text-muted">Uploading {progress}%</p>
             </div>

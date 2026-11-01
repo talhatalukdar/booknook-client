@@ -9,7 +9,7 @@ export const Dialog = Primitive.Root;
 export const DialogTrigger = Primitive.Trigger;
 export const DialogClose = Primitive.Close;
 export const DialogTitle = ({ className, ...p }: React.ComponentProps<typeof Primitive.Title>) => (
-  <Primitive.Title className={cn("font-serif text-4xl text-deep", className)} {...p} />
+  <Primitive.Title className={cn("font-display text-4xl text-night", className)} {...p} />
 );
 export const DialogDescription = ({ className, ...p }: React.ComponentProps<typeof Primitive.Description>) => (
   <Primitive.Description className={cn("mt-1 text-muted", className)} {...p} />
@@ -18,10 +18,10 @@ export const DialogDescription = ({ className, ...p }: React.ComponentProps<type
 export function DialogContent({ className, children, ...props }: React.ComponentProps<typeof Primitive.Content>) {
   return (
     <Primitive.Portal>
-      <Primitive.Overlay className="fixed inset-0 z-50 bg-deep/60" />
+      <Primitive.Overlay className="fixed inset-0 z-50 bg-night/60" />
       <Primitive.Content
         className={cn(
-          "fixed left-1/2 top-1/2 z-50 max-h-[92dvh] w-[min(34rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-[20px] bg-cream p-6 shadow-2xl sm:p-8",
+          "fixed left-1/2 top-1/2 z-50 max-h-[92dvh] w-[min(34rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-2xl bg-canvas p-6 shadow-2xl sm:p-8",
           className,
         )}
         {...props}
@@ -29,7 +29,7 @@ export function DialogContent({ className, children, ...props }: React.Component
         {children}
         <Primitive.Close
           aria-label="Close"
-          className="absolute right-3 top-3 grid size-9 cursor-pointer place-items-center rounded-control text-muted hover:bg-forest/10 hover:text-forest"
+          className="absolute right-3 top-3 grid size-9 cursor-pointer place-items-center rounded-control text-muted hover:bg-primary/10 hover:text-primary"
         >
           <X className="size-5" />
         </Primitive.Close>

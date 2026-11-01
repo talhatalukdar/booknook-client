@@ -21,7 +21,7 @@ export function BookCard({ book }: { book: Book }) {
         href={`/books/${book._id}`}
         tabIndex={-1}
         aria-hidden
-        className="relative block rounded-t-full rounded-b-[20px] px-[18%] pb-7 pt-[22%] transition-colors duration-300"
+        className="relative block rounded-t-full rounded-b-2xl px-[18%] pb-7 pt-[22%] transition-[box-shadow,filter] duration-300 group-hover:shadow-[0_26px_44px_-26px_rgba(26,28,27,0.55)] group-hover:brightness-[1.02]"
         style={{ backgroundColor: categoryTint[book.category] }}
       >
         <div
@@ -32,16 +32,11 @@ export function BookCard({ book }: { book: Book }) {
         >
           <BookCover src={book.image} title={book.title} author={book.author} sizes="(min-width:1024px) 220px, 40vw" />
         </div>
-        {unavailable && (
-          <span className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-deep px-3 py-1 text-xs font-semibold text-cream">
-            Currently unavailable
-          </span>
-        )}
       </Link>
 
       <div className="flex flex-1 flex-col px-1 pt-5">
-        <p className="text-sm font-semibold text-amber">{book.category}</p>
-        <h3 className="mt-1 line-clamp-2 min-h-[2.1em] font-serif text-[1.65rem] leading-[1.05] text-deep sm:text-[1.9rem]">
+        <span className="inline-flex w-fit items-center rounded-md bg-mist px-2.5 py-1 text-xs font-medium tracking-wide text-brand">{book.category}</span>
+        <h3 className="mt-3 line-clamp-2 min-h-[2.1em] font-display text-[1.7rem] font-bold leading-[1.02] text-night sm:text-[1.95rem]">
           {book.title}
         </h3>
         <p className="mt-1.5 truncate text-muted">{book.author}</p>

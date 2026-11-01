@@ -1,39 +1,25 @@
-// Recently viewed books: stored per browser only (localStorage), never sent anywhere.
+// Recently viewed books are stored per user (key includes the account id), in this browser only.
 export interface RecentBook {
   id: string;
   title: string;
   author: string;
   image: string;
 }
-const KEY = "booknook:recent";
+const PREFIX = "booknook:recent:";
+const LEGACY_KEY = "booknook:recent"; // old shared key that leaked history between accounts
 const MAX = 6;
-
-export function readRecent(): RecentBook[] {
-  try {
-    const raw = JSON.parse(localStorage.getItem(KEY) ?? "[]");
-    return Array.isArray(raw) ? raw.filter((b) => b && typeof b.id === "string").slice(0, MAX) : [];
-  } catch {
-    return [];
-  }
-}
-
-export function recordRecent(book: RecentBook) {
-  try {
-    const next = [book, ...readRecent().filter((b) => b.id !== book.id)].slice(0, MAX);
-    localStorage.setItem(KEY, JSON.stringify(next));
-  } catch {
-    /* storage unavailable (private mode): ignore */
-  }
-}
-
 export const RECENT_EMPTY = "[]";
-export function readRecentRaw(): string {
+
+const keyFor = (userId: string) => `${PREFIX}${userId}`;
+
+function dropLegacy() {
   try {
-    return localStorage.getItem(KEY) ?? RECENT_EMPTY;
+    localStorage.removeItem(LEGACY_KEY);
   } catch {
-    return RECENT_EMPTY;
+    /* ignore */
   }
 }
+
 export function parseRecent(raw: string): RecentBook[] {
   try {
     const v = JSON.parse(raw);
@@ -42,7 +28,29 @@ export function parseRecent(raw: string): RecentBook[] {
     return [];
   }
 }
+
+export function readRecentRaw(userId: string | undefined): string {
+  if (!userId) return RECENT_EMPTY; // logged out: never show anyone's history
+  try {
+    return localStorage.getItem(keyFor(userId)) ?? RECENT_EMPTY;
+  } catch {
+    return RECENT_EMPTY;
+  }
+}
+
+export function recordRecent(userId: string, book: RecentBook) {
+  try {
+    dropLegacy();
+    const current = parseRecent(localStorage.getItem(keyFor(userId)) ?? RECENT_EMPTY);
+    const next = [book, ...current.filter((b) => b.id !== book.id)].slice(0, MAX);
+    localStorage.setItem(keyFor(userId), JSON.stringify(next));
+  } catch {
+    /* storage unavailable (private mode): ignore */
+  }
+}
+
 export function subscribeRecent(cb: () => void) {
+  dropLegacy();
   window.addEventListener("storage", cb);
   return () => window.removeEventListener("storage", cb);
 }

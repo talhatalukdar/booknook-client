@@ -1,15 +1,27 @@
-import { BookOpen } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-export function Logo({ className, tone = "light" }: { className?: string; tone?: "light" | "dark" }) {
+/** Official BookNook mark (traced from the supplied logo) plus the Khand wordmark. */
+export function LogoMark({ tone = "dark", className }: { tone?: "light" | "dark"; className?: string }) {
+  return (
+    <Image
+      src={tone === "light" ? "/brand/logo-light.svg" : "/brand/logo.svg"}
+      alt=""
+      width={964}
+      height={798}
+      unoptimized
+      className={cn("h-8 w-auto", className)}
+    />
+  );
+}
+
+export function Logo({ className, tone = "dark" }: { className?: string; tone?: "light" | "dark" }) {
   return (
     <Link href="/" className={cn("inline-flex items-center gap-2.5", className)} aria-label="BookNook home">
-      <span className={cn("grid size-9 place-items-center rounded-full", tone === "light" ? "bg-gold text-deep" : "bg-forest text-cream")}>
-        <BookOpen className="size-[1.15rem]" strokeWidth={2} />
-      </span>
-      <span className={cn("font-serif text-[2rem] leading-none tracking-[-0.02em]", tone === "light" ? "text-cream" : "text-deep")}>
-        Book<em className={cn("pr-0.5", tone === "light" ? "!text-gold" : "!text-forest")}>Nook</em>
+      <LogoMark tone={tone} />
+      <span className={cn("font-display text-[1.9rem] font-semibold leading-none tracking-[0.01em]", tone === "light" ? "text-canvas" : "text-night")}>
+        BookNook
       </span>
     </Link>
   );

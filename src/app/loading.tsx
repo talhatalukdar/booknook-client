@@ -4,9 +4,9 @@ import { Loader2 } from "lucide-react";
 export default function Loading() {
   return (
     <div role="status" aria-live="polite" className="grid min-h-[50vh] place-items-center">
-      <div className="flex flex-col items-center gap-3 text-deep">
-        <Loader2 className="size-9 animate-spin text-forest" strokeWidth={1.6} />
-        <span className="font-serif text-2xl italic">Opening the shelf</span>
+      <div className="flex flex-col items-center gap-3 text-night">
+        <Loader2 className="size-9 animate-spin text-primary" strokeWidth={1.6} />
+        <span className="font-display text-2xl ">Opening the shelf</span>
       </div>
     </div>
   );

@@ -26,9 +26,9 @@ export async function NewArrivalsList() {
   } catch (e) {
     const message = e instanceof ApiError ? e.message : "Something went wrong while loading the shelf.";
     return (
-      <div className="mt-12 flex flex-col items-center rounded-[20px] border border-dashed border-forest/30 px-6 py-16 text-center">
-        <CloudOff className="size-9 text-forest" strokeWidth={1.5} />
-        <h3 className="mt-4 font-serif text-3xl">The shelf could not be loaded</h3>
+      <div className="mt-12 flex flex-col items-center rounded-[20px] border border-dashed border-primary/30 px-6 py-16 text-center">
+        <CloudOff className="size-9 text-primary" strokeWidth={1.5} />
+        <h3 className="mt-4 font-display text-3xl">The shelf could not be loaded</h3>
         <p className="mt-2 max-w-md text-muted">{message}</p>
         <div className="mt-6">
           <RetryButton />
@@ -39,9 +39,9 @@ export async function NewArrivalsList() {
 
   if (books.length === 0) {
     return (
-      <div className="mt-12 flex flex-col items-center rounded-[20px] border border-dashed border-forest/30 px-6 py-16 text-center">
-        <BookPlus className="size-9 text-forest" strokeWidth={1.5} />
-        <h3 className="mt-4 font-serif text-3xl">The shelf is empty for now</h3>
+      <div className="mt-12 flex flex-col items-center rounded-[20px] border border-dashed border-primary/30 px-6 py-16 text-center">
+        <BookPlus className="size-9 text-primary" strokeWidth={1.5} />
+        <h3 className="mt-4 font-display text-3xl">The shelf is empty for now</h3>
         <p className="mt-2 max-w-md text-muted">Be the first to add a book and start the library.</p>
         <Button asChild className="mt-6">
           <Link href="/add-book">Add a Book</Link>

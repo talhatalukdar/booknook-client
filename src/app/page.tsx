@@ -9,9 +9,10 @@ import { RecentlyViewed } from "@/components/home/recently-viewed";
 import { SearchStrip } from "@/components/home/search-strip";
 import { SectionHeading } from "@/components/home/section-heading";
 import { getHomeData } from "@/lib/home-data";
+import { getServerUser } from "@/lib/session";
 
 export default async function HomePage() {
-  const data = await getHomeData();
+  const [data, user] = await Promise.all([getHomeData(), getServerUser()]);
   // Three hero slides, three real covers each (falls back to the illustration without enough books).
   const slideBooks = [0, 1, 2].map((i) => data?.newest.slice(i * 3, i * 3 + 3) ?? []);
 
@@ -34,7 +35,7 @@ export default async function HomePage() {
 
       {data && <Categories data={data.categories} />}
       {data && <Glance data={data} />}
-      <RecentlyViewed />
+      <RecentlyViewed userId={user?.id} />
       <HowItWorks />
       <Community />
     </>

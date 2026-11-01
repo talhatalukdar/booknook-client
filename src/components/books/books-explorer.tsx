@@ -96,7 +96,7 @@ export function BooksExplorer() {
           aria-label="Sort books"
           value={sort}
           onChange={(e) => update({ sort: e.target.value === "newest" ? null : e.target.value })}
-          className="h-11 rounded-full border border-line bg-paper px-5 text-sm font-semibold text-deep"
+          className="h-11 rounded-full border border-line bg-paper px-5 text-sm font-semibold text-night"
         >
           {SORTS.map((s) => (
             <option key={s.value} value={s.value}>
@@ -115,7 +115,7 @@ export function BooksExplorer() {
             onClick={() => update({ category: c || null })}
             className={cn(
               "h-10 cursor-pointer rounded-full border px-5 text-sm font-semibold transition-colors",
-              category === c ? "border-deep bg-deep text-cream" : "border-line bg-paper text-deep hover:border-deep/50",
+              category === c ? "border-night bg-night text-canvas" : "border-line bg-paper text-night hover:border-night/50",
             )}
           >
             {c || "All"}
@@ -133,7 +133,7 @@ export function BooksExplorer() {
       </p>
 
       {error ? (
-        <State icon={<CloudOff className="size-9 text-forest" strokeWidth={1.5} />} title="The shelf could not be loaded" text={error}>
+        <State icon={<CloudOff className="size-9 text-primary" strokeWidth={1.5} />} title="The shelf could not be loaded" text={error}>
           <Button variant="outline" size="sm" onClick={() => setReload((n) => n + 1)}>
             Try again
           </Button>
@@ -146,7 +146,7 @@ export function BooksExplorer() {
         </Grid>
       ) : data && data.items.length === 0 ? (
         <State
-          icon={<BookX className="size-9 text-forest" strokeWidth={1.5} />}
+          icon={<BookX className="size-9 text-primary" strokeWidth={1.5} />}
           title={filtered ? "No books match your search" : "No books on the shelf yet"}
           text={filtered ? "Try a different title, author or category." : "Add the first book to start the library."}
         >
@@ -197,9 +197,9 @@ function Grid({ children }: { children: React.ReactNode }) {
 
 function State({ icon, title, text, children }: { icon: React.ReactNode; title: string; text: string; children?: React.ReactNode }) {
   return (
-    <div className="mt-3 flex flex-col items-center rounded-[20px] border border-dashed border-forest/30 px-6 py-16 text-center">
+    <div className="mt-3 flex flex-col items-center rounded-[20px] border border-dashed border-primary/30 px-6 py-16 text-center">
       {icon}
-      <h2 className="mt-4 font-serif text-3xl">{title}</h2>
+      <h2 className="mt-4 font-display text-3xl">{title}</h2>
       <p className="mt-2 max-w-md text-muted">{text}</p>
       <div className="mt-6">{children}</div>
     </div>

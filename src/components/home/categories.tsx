@@ -16,7 +16,8 @@ const meta: Record<Category, { icon: LucideIcon; text: string }> = {
 /** Real counts and real covers per category (from the shared home data). */
 export function Categories({ data }: { data: { name: Category; total: number | null; covers: Book[] }[] }) {
   return (
-    <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32">
+    <section className="surface-ice">
+    <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32">
       <SectionHeading eyebrow="Browse by category" title={<>Start from a <em>subject</em>.</>} text="Every category shows how many titles are on the shelf right now." />
       <ul className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-6 lg:grid-cols-5">
         {data.map((c, i) => {
@@ -26,12 +27,12 @@ export function Categories({ data }: { data: { name: Category; total: number | n
               <Link
                 href={`/books?category=${c.name}`}
                 style={{ backgroundColor: categoryTint[c.name] }}
-                className="group relative flex h-full min-h-72 flex-col justify-between overflow-hidden rounded-[20px] p-6 transition-shadow duration-300 hover:shadow-[0_24px_40px_-24px_rgba(14,52,39,0.6)]"
+                className="group relative flex h-full min-h-72 flex-col justify-between overflow-hidden rounded-[20px] p-6 transition-shadow duration-300 hover:shadow-[0_24px_40px_-24px_rgba(26,28,27,0.6)]"
               >
                 <div className="flex items-start justify-between">
-                  <Icon className="size-7 text-forest" strokeWidth={1.3} />
+                  <Icon className="size-7 text-primary" strokeWidth={1.3} />
                   {c.total !== null && (
-                    <span className="rounded-full bg-paper/80 px-3 py-1 text-sm font-semibold text-deep">
+                    <span className="rounded-full bg-paper/80 px-3 py-1 text-sm font-semibold text-night">
                       {c.total} {c.total === 1 ? "title" : "titles"}
                     </span>
                   )}
@@ -48,7 +49,7 @@ export function Categories({ data }: { data: { name: Category; total: number | n
                   ))}
                 </div>
                 <div>
-                  <h3 className="font-serif text-4xl leading-none">{c.name}</h3>
+                  <h3 className="font-display text-4xl leading-none">{c.name}</h3>
                   <p className="mt-2 text-sm text-ink/70">{meta[c.name].text}</p>
                 </div>
               </Link>
@@ -56,6 +57,7 @@ export function Categories({ data }: { data: { name: Category; total: number | n
           );
         })}
       </ul>
+    </div>
     </section>
   );
 }

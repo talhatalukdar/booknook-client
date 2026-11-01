@@ -2,26 +2,38 @@
 
 /* "Reading Room" design tokens */
 @theme inline {
-  --color-forest: #174b38;
-  --color-deep: #0e3427;
-  --color-gold: #c6a15b;
-  --color-amber: #9a6f1f; /* gold for text on cream (AA contrast) */
-  --color-cream: #fbf8ef;
-  --color-sand: #f1ecdc; /* tinted panels and arches */
+  /* Palette sampled from the reference screenshots: near-white neutrals, an ice-blue glow,
+     a muted teal-grey panel colour and a charcoal for buttons. */
+  --color-canvas: #f7f7f7;
   --color-paper: #ffffff;
-  --color-ink: #1d251f;
-  --color-muted: #626559; /* secondary text, AA on cream */
-  --color-line: #e6e1d2;
+  --color-mist: #edf1f2; /* soft grey-blue panels */
+  --color-ice: #d8f4f8; /* ice-blue glow */
+  --color-teal: #8aafb5; /* teal-grey surface and accents */
+  --color-brand: #44707a; /* teal darkened for text on light surfaces (AA) */
+  --color-primary: #242625; /* buttons */
+  --color-night: #1a1c1b; /* headings, dark bands, footer */
+  --color-ink: #1f2221;
+  --color-muted: #5b6260;
+  --color-line: #e1e4e5;
   --color-danger: #c62828;
   --color-success: #17713b;
 
-  --font-sans: var(--font-sans-src), system-ui, sans-serif;
-  --font-serif: var(--font-serif-src), Georgia, serif;
+  --font-sans: "General Sans", ui-sans-serif, system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-khand), "Arial Narrow", Impact, sans-serif;
 
-  --radius-control: 999px; /* buttons are pills (Fable, Bookly) */
+  --radius-control: 10px;
   --radius-field: 12px;
   --radius-cover: 3px;
-  --shadow-cover: 0 22px 30px -16px rgba(14, 52, 39, 0.55), 0 6px 10px -4px rgba(14, 52, 39, 0.25);
+  --shadow-cover: 0 22px 30px -16px rgba(26, 28, 27, 0.5), 0 6px 10px -4px rgba(26, 28, 27, 0.22);
+}
+
+/* General Sans: self-hosted from public/fonts (see public/fonts/README.md) */
+@font-face {
+  font-family: "General Sans";
+  src: url("/fonts/GeneralSans-Variable.woff2") format("woff2");
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 html {
@@ -30,10 +42,11 @@ html {
 }
 
 body {
-  background: var(--color-cream);
+  background: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 1.0625rem;
+  font-weight: 400;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -43,29 +56,53 @@ body {
   h1,
   h2,
   h3 {
-    font-family: var(--font-serif);
-    font-weight: 400;
+    font-family: var(--font-display);
+    font-weight: 600;
     font-synthesis: none;
-    letter-spacing: -0.015em;
-    line-height: 1.05;
-    color: var(--color-deep);
+    letter-spacing: 0;
+    line-height: 1;
+    color: var(--color-night);
   }
+  /* Khand has no italic: emphasis is colour, not slant */
   h1 em,
   h2 em,
-  h3 em,
-  .accent {
-    font-style: italic;
-    color: var(--color-forest);
+  h3 em {
+    font-style: normal;
+    color: var(--color-brand);
   }
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-synthesis: none;
+  }
+}
+
+/* Layered surfaces (replace the old single flat background) */
+.surface-haze {
+  background:
+    radial-gradient(90% 60% at 80% 0%, rgba(216, 244, 248, 0.95), rgba(216, 244, 248, 0) 70%),
+    radial-gradient(70% 50% at 0% 100%, rgba(138, 175, 181, 0.22), rgba(138, 175, 181, 0) 70%),
+    var(--color-canvas);
+}
+.surface-ice {
+  background: linear-gradient(180deg, var(--color-canvas) 0%, #e3f6f9 42%, #eef9fb 62%, var(--color-canvas) 100%);
+}
+.surface-teal {
+  background: linear-gradient(135deg, #8aafb5 0%, #9dbfc4 100%);
+}
+.surface-night {
+  background:
+    radial-gradient(80% 90% at 100% 0%, rgba(138, 175, 181, 0.22), rgba(138, 175, 181, 0) 60%),
+    var(--color-night);
 }
 
 ::selection {
-  background: var(--color-gold);
-  color: var(--color-deep);
+  background: var(--color-teal);
+  color: var(--color-night);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-gold);
+  outline: 2px solid var(--color-brand);
   outline-offset: 2px;
 }
 
@@ -81,36 +118,40 @@ body {
   }
 }
 
-/* Shared heading scale so every page heading matches */
-.display {
-  font-family: var(--font-serif);
-  font-weight: 400;
+/* Shared heading scale (Khand SemiBold) so every page heading matches */
+.display,
+.page-title,
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 600;
   font-synthesis: none;
-  line-height: 0.98;
-  letter-spacing: -0.025em;
-  font-size: clamp(3rem, 7.4vw, 6rem);
+  color: var(--color-night);
+}
+.display {
+  line-height: 0.92;
+  letter-spacing: -0.005em;
+  font-size: clamp(3.4rem, 8vw, 6.75rem);
 }
 .page-title {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-synthesis: none;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  font-size: clamp(2.6rem, 5.6vw, 4.5rem);
+  line-height: 0.95;
+  font-size: clamp(2.9rem, 6.2vw, 5rem);
 }
 .section-title {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-synthesis: none;
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  font-size: clamp(2.2rem, 4.4vw, 3.5rem);
+  line-height: 0.98;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+}
+.display em,
+.page-title em,
+.section-title em {
+  font-style: normal;
+  color: var(--color-brand);
 }
 .eyebrow {
   font-size: 0.8125rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--color-amber);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-brand);
 }
 
 /* Hero slider (Swiper) skin; the pagination element lives outside the Swiper root */
@@ -120,14 +161,14 @@ body {
   height: 4px;
   margin: 0 !important;
   border-radius: 0;
-  background: var(--color-forest);
+  background: var(--color-night);
   opacity: 0.22;
   cursor: pointer;
   transition: opacity 0.2s;
 }
 .hero-pagination .swiper-pagination-bullet-active {
   opacity: 1;
-  background: var(--color-gold);
+  background: var(--color-night);
 }
 
 /* One orchestrated moment: the spines rise onto the shelf when the hero loads */

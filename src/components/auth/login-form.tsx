@@ -46,7 +46,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
             <button
               type="button"
               onClick={() => toast.info("Password reset is not available yet")}
-              className="cursor-pointer text-sm font-medium text-forest underline underline-offset-4"
+              className="cursor-pointer text-sm font-medium text-primary underline underline-offset-4"
             >
               Forgot password?
             </button>
@@ -71,7 +71,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
         New to BookNook?{" "}
         <Link
           href={callbackUrl === "/" ? "/register" : `/register?callbackUrl=${encodeURIComponent(callbackUrl)}`}
-          className="font-semibold text-forest underline underline-offset-4"
+          className="font-semibold text-primary underline underline-offset-4"
         >
           Register
         </Link>

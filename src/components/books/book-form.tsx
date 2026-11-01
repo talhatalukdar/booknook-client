@@ -48,7 +48,7 @@ export function BookForm({ initial, submitLabel, onSubmit, onCancel, account, on
     <form onSubmit={handleSubmit(submit)} noValidate className="space-y-6">
       {account && (
         <fieldset className="rounded-[20px] border border-line bg-paper p-5">
-          <legend className="px-2 text-sm font-semibold text-deep">Your account information</legend>
+          <legend className="px-2 text-sm font-semibold text-night">Your account information</legend>
           <div className="flex items-center gap-4">
             <Avatar name={account.name} src={account.image} className="size-12" />
             <div className="grid min-w-0 flex-1 gap-3 sm:grid-cols-2">
