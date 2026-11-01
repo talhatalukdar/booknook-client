@@ -45,8 +45,8 @@ export default async function BookDetailsPage({ params, searchParams }: Props) {
     .catch(() => [] as Book[]);
 
   const facts = [
-    ["Category", book.category],
     ["Total copies", String(book.totalCopies)],
+    ["Available copies", String(book.availableCopies)],
     ["Added by", book.addedByName],
     ["Added on", formatDate(book.addedAt)],
   ];

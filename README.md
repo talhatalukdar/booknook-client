@@ -18,6 +18,17 @@
 > **Add Book (imgbb upload), My Books (edit/delete), My Borrows (return and history)** and route
 > protection, the **Profile page** and a deployment guide are implemented and tested. Dark mode and the actual deployment are still open.
 
+## Design
+
+Editorial "Reading Room" look built from six reference designs: cream paper, deep forest green and
+gold, arch-shaped cover panels, a light serif with italic accents and pill buttons. Typefaces are
+**Instrument Serif** (headings, book titles) and **Instrument Sans** (interface), self-hosted from
+`@fontsource`. Every book card is one shared component. Books with no copies left show a disabled
+"Not Available" control instead of Borrow, and the Express API still rejects borrows without stock.
+Extra features: search strip with category filter, real per-category counts and covers, library
+stats computed from the database, recently viewed books (stored in your browser only), related
+books on the details page, and profile picture upload.
+
 ## Stack
 
 Next.js (App Router) · TypeScript · Tailwind CSS v4 · shadcn-style components on Radix · Lucide ·

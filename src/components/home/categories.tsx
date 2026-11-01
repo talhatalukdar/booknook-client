@@ -40,7 +40,7 @@ export function Categories({ data }: { data: { name: Category; total: number | n
                   {c.covers.slice(0, 3).map((b, k, arr) => (
                     <div
                       key={b._id}
-                      className="absolute bottom-0 w-[44%] transition-transform duration-500 group-hover:-translate-y-2"
+                      className="absolute bottom-0 w-[44%] text-[5px] transition-transform duration-500 group-hover:-translate-y-2"
                       style={{ left: `${(k - (arr.length - 1) / 2) * 26 + 28}%`, transform: `rotate(${(k - (arr.length - 1) / 2) * 7}deg)`, zIndex: k === 1 ? 2 : 1 }}
                     >
                       <BookCover src={b.image} title={b.title} author={b.author} sizes="80px" />

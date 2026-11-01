@@ -87,7 +87,7 @@ with sync_playwright() as p:
     check("book unchanged after attacks", api_json(f"/books/{bid}")["title"]==EDITED)
 
     # ---- borrow from another account
-    bob.goto(BASE+f"/books/{bid}"); bob.click("button:has-text('Borrow This Book')"); bob.click("button:has-text('Confirm Borrow')"); bob.wait_for_selector("text=Available: 2 copies",timeout=15000)
+    bob.goto(BASE+f"/books/{bid}"); bob.click("button:has-text('Borrow This Book')"); bob.click("button:has-text('Confirm Borrow')"); bob.wait_for_selector("text=2 copies available",timeout=15000)
     check("stock after Bob borrows: 3 -> 2", api_json(f"/books/{bid}")["availableCopies"]==2)
     r=call(carol,"POST","/borrows",{"bookId":bid,"returnDate":due()}); check("Carol borrows too; stock 1", r["status"]==201 and api_json(f"/books/{bid}")["availableCopies"]==1)
 

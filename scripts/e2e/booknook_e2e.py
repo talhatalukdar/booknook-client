@@ -77,7 +77,7 @@ with sync_playwright() as p:
     pg.wait_for_url(re.compile(r"/login")); login(pg,B)
     pg.wait_for_url(f"{BASE}/books/{bid}", timeout=20000); check("after login returns to original book page", True)
     check("details title is dynamic", "Book Details" in pg.title(), pg.title())
-    pg.wait_for_selector("text=Available: 3 copies"); check("details show real availability 3/3", True)
+    pg.wait_for_selector("text=3 copies available"); check("details show real availability 3/3", True)
     for label in ["Total copies","Available copies","Added by","Added on"]: assert pg.locator(f"dt:has-text('{label}')").count()==1
     check("details show copies, added-by and date", pg.locator("dd:has-text('Alice Owner')").count()==1)
 
@@ -85,7 +85,7 @@ with sync_playwright() as p:
     pg.click("button:has-text('Borrow This Book')"); pg.wait_for_selector("text=Confirm Borrow")
     check("modal shows read-only name/email", pg.input_value("#bn-name")=="Bob Reader" and pg.input_value("#bn-email")==B)
     pg.click("button:has-text('Confirm Borrow')"); pg.wait_for_selector("text=You have borrowed this book", timeout=15000)
-    pg.wait_for_selector("text=Available: 2 copies", timeout=15000)
+    pg.wait_for_selector("text=2 copies available", timeout=15000)
     check("borrow succeeded; availability refreshed 3 -> 2", True)
     check("DB availableCopies is 2", api_json(f"/books/{bid}")["availableCopies"]==2)
     # ---- duplicate active borrow
@@ -99,7 +99,7 @@ with sync_playwright() as p:
     pg.wait_for_selector("text=Not Available", timeout=15000)
     check("last copy borrowed -> availability 0", api_json(f"/books/{one}")["availableCopies"]==0)
     pa.goto(f"{BASE}/books/{one}"); pa.wait_for_selector("h1")
-    check("out-of-stock: Borrow button disabled with 'Not Available'", pa.locator("button:has-text('Not Available')").is_disabled())
+    check("out-of-stock: Borrow button disabled with 'Not Available'", pa.locator("button:has-text('Currently Unavailable')").is_disabled())
     r=call(pa,"POST","/borrows",{"bookId":one,"returnDate":time.strftime("%Y-%m-%d",time.gmtime(time.time()+5*86400))})
     check("out-of-stock borrow rejected by API (409)", r["status"]==409, r["json"].get("message",""))
     check("stock stays 0 (never negative)", api_json(f"/books/{one}")["availableCopies"]==0)
@@ -110,6 +110,28 @@ with sync_playwright() as p:
     # ---- 404 for unknown id
     pg.goto(f"{BASE}/books/64b7f0f4f4d3a2b1c0e9d8a7"); check("unknown book id -> custom 404", pg.locator("text=Back to Home").count()==1)
     pg.goto(f"{BASE}/books/not-an-id"); check("invalid id -> custom 404", pg.locator("text=Back to Home").count()==1)
+
+
+    # ---- redesigned cards: unavailable vs available actions (backend remains the authority)
+    pg.goto(BASE+"/books?q=Salt Road 0"); pg.wait_for_selector("article")
+    card=pg.locator("article:has-text('Salt Road 0')")
+    check("0-copy card: 'Not Available' control is disabled", card.locator("button:has-text('Not Available')").is_disabled())
+    check("0-copy card: no Borrow link", card.locator("a:has-text('Borrow')").filter(has_not_text="View").count()==0 and card.locator("a[href*='borrow=1']").count()==0)
+    check("0-copy card: 'Currently unavailable' label", card.locator("text=Currently unavailable").count()==1)
+    pg.goto(BASE+"/books?q=Salt Road 2"); pg.wait_for_selector("article")
+    ac=pg.locator("article:has-text('Salt Road 2')")
+    check("available card: View Details + Borrow", ac.locator("a:has-text('View Details')").count()==1 and ac.locator("a[href*='borrow=1']").count()==1)
+    ac.locator("a[href*='borrow=1']").click(); pg.wait_for_selector("text=Confirm Borrow", timeout=15000)
+    check("card Borrow opens the borrow modal on the details page", True)
+    pg.keyboard.press("Escape")
+    pg.goto(BASE+"/"); pg.wait_for_selector("section:has(h2:has-text('Fresh')) article")
+    check("home New Arrivals: exactly 6 cards", pg.locator("section:has(h2:has-text('Fresh')) article").count()==6)
+    ys=sorted({round(pg.locator("section:has(h2:has-text('Fresh')) article").nth(i).bounding_box()["y"]) for i in range(6)})
+    xs=sorted({round(pg.locator("section:has(h2:has-text('Fresh')) article").nth(i).bounding_box()["x"]) for i in range(6)})
+    check("home New Arrivals desktop layout: 2 rows x 3 columns", len(ys)==2 and len(xs)==3, f"rows={len(ys)} cols={len(xs)}")
+    check("hero slider has 3 slides with Browse Books", pg.locator(".hero-swiper .swiper-slide:not(.swiper-slide-duplicate)").count()==3 and pg.locator("a:has-text('Browse Books')").count()>=1)
+    hs=pg.locator("a:has-text('Browse Books')").first.bounding_box()
+    check("Browse Books CTA is visible without scrolling", hs is not None and hs["y"]<900)
 
     # ---- responsive
     for name,(w,h) in {"mobile":(390,844),"tablet":(820,1100)}.items():

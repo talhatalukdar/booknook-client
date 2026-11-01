@@ -47,14 +47,14 @@ const slides: { title: React.ReactNode; text: string }[] = [
 /** Three arch-shaped panels with real covers from the database (Paper Haven style). */
 function ArchTrio({ books }: { books: Book[] }) {
   return (
-    <div className="mx-auto grid w-full max-w-xl grid-cols-3 items-end gap-3 sm:gap-5" aria-label="Recently added books">
+    <div className="mx-auto grid w-full max-w-2xl grid-cols-3 items-end gap-3 sm:gap-5" aria-label="Recently added books">
       {books.map((b, i) => (
         <Link
           key={b._id}
           href={`/books/${b._id}`}
           aria-label={`${b.title} by ${b.author}`}
           className={cn(
-            "group relative block rounded-t-full rounded-b-[18px] px-[16%] pb-6 pt-[34%] transition-transform duration-500 hover:-translate-y-2",
+            "group relative block rounded-t-full rounded-b-[20px] px-[11%] pb-7 pt-[30%] transition-transform duration-500 hover:-translate-y-2",
             i === 1 ? "sm:-translate-y-6 sm:hover:-translate-y-8" : "",
           )}
           style={{ backgroundColor: categoryTint[b.category] }}
