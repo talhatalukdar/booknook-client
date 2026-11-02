@@ -30,8 +30,18 @@ export const auth = betterAuth({
     autoSignIn: false,
   },
 
+ 
   socialProviders:
-    googleId && googleSecret ? { google: { clientId: googleId, clientSecret: googleSecret } } : {},
+    googleId && googleSecret
+      ? {
+          google: {
+            clientId: googleId,
+            clientSecret: googleSecret,
+            prompt: "select_account",
+          },
+        }
+      : {},
+
 
   // Server-side password rule (the client form enforces the same rule for friendlier errors).
   hooks: {
