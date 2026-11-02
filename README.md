@@ -20,14 +20,22 @@
 
 ## Design
 
-Editorial "Reading Room" look built from six reference designs: cream paper, deep forest green and
-gold, arch-shaped cover panels, a light serif with italic accents and pill buttons. Typefaces are
-**Khand** (headings, book titles) and **General Sans** (interface), self-hosted from
-`@fontsource`. Every book card is one shared component. Books with no copies left show a disabled
-"Not Available" control instead of Borrow, and the Express API still rejects borrows without stock.
-Extra features: search strip with category filter, real per-category counts and covers, library
-stats computed from the database, recently viewed books (stored in your browser only), related
-books on the details page, and profile picture upload.
+Premium editorial bookstore look. Colours are sampled from the supplied reference screenshots:
+near-white neutrals, an ice-blue glow, a muted teal-grey surface and charcoal buttons, layered
+into gradient sections instead of one flat background. Typography uses exactly two families:
+
+- **Khand** (Fontshare/Google, self-hosted via `@fontsource`): SemiBold 600 for headings, Bold 700
+  for book titles and statistics.
+- **General Sans** (Fontshare): all interface and body text. It is not on npm, so add the file
+  yourself: see [`public/fonts/README.md`](public/fonts/README.md). Until
+  `public/fonts/GeneralSans-Variable.woff2` exists the site uses the system sans-serif.
+
+The official logo lives in `public/brand/` and drives the navbar, footer, auth pages, favicon,
+Apple icon and Open Graph image. Every book card is one shared component; books with no copies
+left show a disabled "Not Available" control instead of Borrow (the Express API still rejects
+borrows without stock). Extras: search strip with category filter, real per-category counts and
+covers, live library stats, related books, profile picture upload and **recently viewed books
+stored per account** (keyed by user id, browser-only, never shared between accounts).
 
 ## Stack
 

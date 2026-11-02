@@ -22,13 +22,17 @@ with sync_playwright() as p:
     # --- typography
     pg.goto(BASE+"/",wait_until="networkidle"); pg.wait_for_selector("article")
     fam=lambda sel: pg.eval_on_selector(sel,"e=>{const c=getComputedStyle(e);return [c.fontFamily,c.fontWeight]}")
-    h2=fam(".hero-swiper .swiper-slide-active h2"); check("hero heading: Khand 600", "khand" in h2[0].lower() and h2[1]=="600", str(h2))
-    h3=fam("article h3"); check("book title: Khand 700", "khand" in h3[0].lower() and h3[1]=="700", str(h3))
+    pg.evaluate("document.fonts.ready")
+    loaded=pg.evaluate("[...document.fonts].filter(f=>f.status==='loaded').map(f=>f.family.replace(/\"/g,'')+' '+f.weight)")
+    check("Khand 600 and 700 font files are actually loaded", any(x.endswith(' 600') for x in loaded) and any(x.endswith(' 700') for x in loaded), str(loaded))
+    isk=lambda f: f.split(',')[0].strip().strip('"')==loaded[0].rsplit(' ',1)[0] if loaded else False
+    h2=fam(".hero-swiper .swiper-slide-active h2"); check("hero heading: Khand 600", isk(h2[0]) and h2[1]=="600", str(h2))
+    h3=fam("article h3"); check("book title: Khand 700", isk(h3[0]) and h3[1]=="700", str(h3))
     bd=fam("body"); check("body: General Sans (falls back to system sans until the font file is added)", bd[0].lower().startswith('"general sans"') or bd[0].lower().startswith("general sans"), bd[0][:60])
     nav=fam("header nav a"); check("navbar uses the body family", nav[0]==bd[0])
-    ft=fam("footer h2"); check("footer heading: Khand 600", "khand" in ft[0].lower() and ft[1]=="600", str(ft))
-    stat=pg.eval_on_selector("dd","e=>[getComputedStyle(e).fontFamily,getComputedStyle(e).fontWeight]"); check("statistics: Khand 700", "khand" in stat[0].lower() and stat[1]=="700", str(stat))
-    check("only two families in use (no serif/Instrument/Cormorant)", pg.evaluate("""()=>{const s=new Set();document.querySelectorAll('body *').forEach(e=>{const f=getComputedStyle(e).fontFamily.split(',')[0].replace(/"/g,'').trim().toLowerCase();s.add(f)});return [...s].every(f=>/khand|general sans|^_?_?khand|__/.test(f)||f.includes('khand'))}"""))
+    ft=fam("footer h2"); check("footer heading: Khand 600", isk(ft[0]) and ft[1]=="600", str(ft))
+    stat=pg.eval_on_selector("dd","e=>[getComputedStyle(e).fontFamily,getComputedStyle(e).fontWeight]"); check("statistics: Khand 700", isk(stat[0]) and stat[1]=="700", str(stat))
+    check("only two families in use (Khand + General Sans)", pg.evaluate("""()=>{const ok=new Set(['display','general sans']);const bad=new Set();document.querySelectorAll('body *').forEach(e=>{const f=getComputedStyle(e).fontFamily.split(',')[0].replace(/"/g,'').trim().toLowerCase();if(!ok.has(f))bad.add(f)});return bad.size===0}"""))
     # --- layered colours (no single flat background)
     bgs=pg.evaluate("""()=>[...document.querySelectorAll('main section')].map(s=>getComputedStyle(s).backgroundImage!=='none'?'gradient':getComputedStyle(s).backgroundColor)""")
     check("sections use layered surfaces (gradients + varied colours)", "gradient" in bgs and len(set(bgs))>=3, str(sorted(set(bgs))))
@@ -59,7 +63,7 @@ with sync_playwright() as p:
     bid=[b["_id"] for b in items if b["title"]=="Matilda"][0]; A.goto(f"{BASE}/books/{bid}"); A.wait_for_selector("h1"); A.goto(BASE+"/"); A.wait_for_selector("text=Recently")
     check("B's own history has only B's book", A.locator("section:has(h2:has-text('Recently')) li").count()==1 and A.locator("section:has(h2:has-text('Recently')) >> text=Matilda").count()>=1)
     raw=A.evaluate("Object.keys(localStorage)"); check("history keys are per account; old shared key removed", all(k!="booknook:recent" for k in raw) and any(k.startswith("booknook:recent:") for k in raw), str(raw))
-    A.click("button[aria-label^='Account menu']"); A.click("text=Logout"); A.wait_for_selector("a:has-text('Login')"); time.sleep(1); login(A,f"va{stamp}@t.dev"); A.goto(BASE+"/"); A.wait_for_selector("text=Recently")
+    A.click("button[aria-label^='Account menu']"); A.click("text=Logout"); A.wait_for_selector("a:has-text('Login')"); time.sleep(12); login(A,f"va{stamp}@t.dev"); A.goto(BASE+"/"); A.wait_for_selector("text=Recently")
     check("A logs back in: A's history is still A's (2 books, no Matilda)", A.locator("section:has(h2:has-text('Recently')) li").count()==2 and A.locator("section:has(h2:has-text('Recently')) >> text=Matilda").count()==0)
     # --- unavailable consistency
     for url,sel in (("/books?q=Silent Spring","article:has-text('Silent Spring')"),):

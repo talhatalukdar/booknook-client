@@ -118,6 +118,7 @@ body {
   }
 }
 
+@layer components {
 /* Shared heading scale (Khand SemiBold) so every page heading matches */
 .display,
 .page-title,
@@ -152,6 +153,7 @@ body {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-brand);
+}
 }
 
 /* Hero slider (Swiper) skin; the pagination element lives outside the Swiper root */

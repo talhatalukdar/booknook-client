@@ -19,6 +19,8 @@ const display = localFont({
 });
 
 export const metadata: Metadata = {
+  // Absolute base for the Open Graph / Twitter image URLs (the production site URL).
+  metadataBase: new URL(process.env.BETTER_AUTH_URL || "http://localhost:3000"),
   title: { default: "BookNook | Home", template: "BookNook | %s" },
   description:
     "BookNook is a small online library. Browse the shelf, borrow a book for a few days and return it when you are done.",
