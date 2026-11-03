@@ -1,103 +1,201 @@
 # BookNook Client
 
-**BookNook – A Small Online Library.** Browse the shelf, add books, borrow for a few days and return them.
+**BookNook – A Small Online Library**
 
-- Live site: _add the Vercel URL here after deployment_
-- API: `booknook-server` (Express + MongoDB), a separate repository
+BookNook is a modern online library application where users can discover books, explore categories, add books, borrow available copies, and manage their borrowing history.
+
+## Live Application
+
+- **Live Website:** https://booknook-client-olive.vercel.app/
+- **Backend API:** https://booknook-server-2ciu.onrender.com
+- **Client Repository:** https://github.com/talhatalukdar/booknook-client
+- **Server Repository:** https://github.com/talhatalukdar/booknook-server
 
 ## Features
 
-- Swiper hero slider with three slides and a prominent **Browse Books** call to action
-- **New Arrivals**: the latest six books loaded live from MongoDB, shown in two desktop columns
-- Email/password and Google sign-in with BetterAuth; sessions persist across reloads
-- Private routes redirect to Login and return you to the page you wanted
-- Real availability (`availableCopies` / `totalCopies`) from the database, never hardcoded
-- Responsive layout, skeleton and error states, Sonner toasts, custom 404, per-page titles
-
-> Status: homepage, design system, Login/Register, All Books, Book Details, Borrow modal,
-> **Add Book (imgbb upload), My Books (edit/delete), My Borrows (return and history)** and route
-> protection, the **Profile page** and a deployment guide are implemented and tested. Dark mode and the actual deployment are still open.
-
-## Design
-
-Premium editorial bookstore look. Colours are sampled from the supplied reference screenshots:
-near-white neutrals, an ice-blue glow, a muted teal-grey surface and charcoal buttons, layered
-into gradient sections instead of one flat background. Typography uses exactly two families:
-
-- **Khand** (Fontshare/Google, self-hosted via `@fontsource`): SemiBold 600 for headings, Bold 700
-  for book titles and statistics.
-- **General Sans** (Fontshare): all interface and body text. It is not on npm, so add the file
-  yourself: see [`public/fonts/README.md`](public/fonts/README.md). Until
-  `public/fonts/GeneralSans-Variable.woff2` exists the site uses the system sans-serif.
-
-The official logo lives in `public/brand/` and drives the navbar, footer, auth pages, favicon,
-Apple icon and Open Graph image. Every book card is one shared component; books with no copies
-left show a disabled "Not Available" control instead of Borrow (the Express API still rejects
-borrows without stock). Extras: search strip with category filter, real per-category counts and
-covers, live library stats, related books, profile picture upload and **recently viewed books
-stored per account** (keyed by user id, browser-only, never shared between accounts).
-
-## Stack
-
-Next.js (App Router) · TypeScript · Tailwind CSS v4 · shadcn-style components on Radix · Lucide ·
-Swiper · Framer Motion · Sonner · React Hook Form + Zod · BetterAuth (MongoDB adapter, JWT plugin).
+- **Editorial Homepage:** Responsive homepage with a three-slide Swiper hero, a search bar with category filter, and layered gradient sections.
+- **New Arrivals:** The six latest books, loaded from the database (sorted and limited on the server), shown as two rows of three on desktop.
+- **All Books:** Browse, search by title or author, filter by category, sort and paginate.
+- **Book Details:** Full book information with real-time copy availability and related books.
+- **Authentication:** Email/password registration and login using BetterAuth, plus Google sign-in.
+- **Add Books:** Authenticated users add books with a cover image uploaded through ImgBB.
+- **My Books:** Edit or delete the books you added (books with active borrows cannot be deleted).
+- **Borrow Books:** Borrow an available book with a return date of 1 to 30 days. Books with no copies left show a disabled **Not Available** control instead of Borrow.
+- **My Borrows:** Borrowing history with active, returned and overdue status, and one-click returns.
+- **User Profile:** Reading statistics, name editing, and profile picture upload with preview.
+- **Recently Viewed:** Books you opened recently, stored per account in your own browser only.
+- **Protected Routes:** Private pages redirect to Login and bring you back after signing in.
+- **Responsive Design:** Mobile, tablet and desktop layouts, loading states, error states, empty states and toast notifications.
 
 ## Authentication
 
-BetterAuth runs inside this Next.js app (`/api/auth/*`) with the MongoDB adapter. The JWT plugin
-signs short-lived (15 min) EdDSA tokens and publishes keys at `/api/auth/jwks`. `src/lib/api.ts`
-gets a token with `authClient.token()`, keeps it in memory only, and sends it as
-`Authorization: Bearer <token>`. The Express server verifies signature, expiry, issuer and
-audience against that JWKS; identity is never taken from the request body.
+BookNook uses BetterAuth with its MongoDB adapter.
 
-## Environment variables
+Supported sign-in methods:
 
-Copy `.env.example` to `.env.local`; every variable is documented there
-(`BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `MONGODB_URI`, `DB_NAME`, `GOOGLE_CLIENT_ID`,
-`GOOGLE_CLIENT_SECRET`, `NEXT_PUBLIC_API_URL`, `IMGBB_API_KEY`).
-`BETTER_AUTH_URL` here must equal the server's `BETTER_AUTH_URL`.
+- Email and password.
+- Google OAuth.
 
-## Development
+Authentication features:
+
+- Persistent sessions that survive page reloads.
+- Server-side session validation for private pages.
+- JWT generation through the BetterAuth JWT plugin (EdDSA, 15-minute tokens).
+- The client sends the token as `Authorization: Bearer <token>`; the Express server verifies it against the JWKS published at `/api/auth/jwks`.
+- The token is kept in memory only (never in `localStorage`).
+
+**Google account linking:** New Google accounts can register and sign in. Automatically linking an existing email/password account to Google is not implemented.
+
+## Design and Typography
+
+The interface follows a colour system sampled from reference designs: near-white neutrals, an ice-blue glow, a muted teal-grey surface and charcoal buttons, layered into gradient sections.
+
+Exactly two typefaces are used:
+
+- **Khand** for headings: SemiBold (600) for headings, Bold (700) for book titles and statistics. Self-hosted through `@fontsource/khand`.
+- **General Sans** for navigation, buttons, body text, forms and metadata. It is a Fontshare font and is loaded from `public/fonts/GeneralSans-Variable.woff2` (see `public/fonts/README.md`). Without that file the site falls back to the system sans-serif.
+
+The official BookNook logo is in `public/brand/` and is used in the navbar, footer, authentication pages, favicon, Apple icon and Open Graph image.
+
+## Technology Stack
+
+### Frontend
+- Next.js App Router
+- React
+- TypeScript
+- Tailwind CSS v4
+- Shadcn-style UI components on Radix UI
+- Lucide React
+- Swiper.js
+- Framer Motion (reduced-motion handling)
+- Sonner
+- React Hook Form
+- Zod
+
+### Authentication
+- BetterAuth
+- BetterAuth MongoDB Adapter
+- BetterAuth JWT Plugin
+- Google OAuth
+
+### Backend Integration
+- Express.js
+- MongoDB
+- JWT/JWKS verification
+
+### Deployment
+- Vercel (Frontend)
+- Render (Backend)
+- MongoDB Atlas (Database)
+- ImgBB (Book cover and profile picture uploads)
+
+## Project Structure
+
+```text
+booknook-client/
+├── public/
+│   ├── brand/          # official logo (SVG)
+│   └── fonts/          # General Sans (add the font file here)
+├── scripts/
+│   └── e2e/            # Playwright end-to-end scripts
+├── src/
+│   ├── app/            # routes, layouts, API routes (auth, upload)
+│   ├── components/     # UI, layout, books, home, auth, borrows
+│   ├── fonts/          # self-hosted Khand
+│   ├── lib/            # API client, auth, validation, helpers
+│   ├── types/
+│   └── proxy.ts        # private-route redirect to Login
+├── .env.example
+├── package.json
+└── README.md
+```
+
+## Environment Variables
+
+Create a `.env.local` file in the project root:
 
 ```bash
-npm install
-cp .env.example .env.local   # fill in values
-npm run dev                  # http://localhost:3000
-npm run lint && npx tsc --noEmit && npm run build
+cp .env.example .env.local
 ```
+
+Configure:
+
+```env
+BETTER_AUTH_SECRET=
+BETTER_AUTH_URL=http://localhost:3000
+
+MONGODB_URI=
+DB_NAME=booknook
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+NEXT_PUBLIC_API_URL=http://localhost:5000
+
+IMGBB_API_KEY=
+```
+
+**Important:**
+
+- Never commit `.env.local`.
+- `IMGBB_API_KEY` is server-side only: uploads go through the app's own `/api/upload` route, so the key never reaches the browser.
+- In production, `BETTER_AUTH_URL` must be the Vercel URL and must equal the backend's `BETTER_AUTH_URL` (it is the JWT issuer and audience).
+- `NEXT_PUBLIC_*` values are baked in at build time: redeploy after changing them.
+- Add the Google OAuth redirect URI `<your-url>/api/auth/callback/google` in Google Cloud Console.
+
+## Installation and Local Development
+
+```bash
+git clone https://github.com/talhatalukdar/booknook-client.git
+cd booknook-client
+npm install
+cp .env.example .env.local   # then fill in the values
+npm run dev
+```
+
+Open http://localhost:3000 (the backend must be running on the URL in `NEXT_PUBLIC_API_URL`).
+
+Quality checks:
+
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+```
+
+## Testing
+
+`scripts/e2e/` contains Playwright (Python) end-to-end scripts that drive the real application: authentication, browsing, borrowing and returning, ownership rules, profile upload, per-user recently viewed, typography and colour checks. They need MongoDB, the Express server and this app running; see the comments at the top of each script.
 
 ## Deployment
 
-Full step-by-step guide with a verification checklist: see [DEPLOYMENT.md](DEPLOYMENT.md).
+- **Frontend:** Vercel, https://booknook-client-olive.vercel.app/
+- **Backend:** Render, https://booknook-server-2ciu.onrender.com
+- **Database:** MongoDB Atlas
 
-### Vercel summary
-
-Import the repo, set all variables above (production URLs, no trailing slashes), add
-`https://<app>.vercel.app/api/auth/callback/google` to the Google OAuth redirect URIs, then set the
-same app URL as `CLIENT_URL` and `BETTER_AUTH_URL` on the Render server.
-
-## Image uploads
-
-Covers are uploaded to imgbb through this app's own `/api/upload` route. The imgbb key
-(`IMGBB_API_KEY`) is server-side only, so it never appears in browser code. The route requires a
-session, accepts JPG/PNG/WebP/GIF up to 4 MB, checks the file signature and rate-limits uploads.
-
-### Trying real imgbb locally
-
-1. In `booknook-client/.env.local` add `IMGBB_API_KEY=<your key>` and make sure `IMGBB_API_URL`
-   is **not** set (it only exists for the test stub).
-2. Restart `npm run dev` (env files are read at startup).
-3. Log in, open **Add Book**, choose a real cover and wait for "Cover uploaded".
-4. Submit, then check the cover on All Books, Book Details, My Books and My Borrows.
-
-## End-to-end test
-
-`scripts/e2e/booknook_e2e.py` (browse, borrow) and `scripts/e2e/booknook_phase6_e2e.py` (add, edit, delete, return, isolation), both Python + Playwright, drives the real stack: BetterAuth signup and
-login, seeding through `POST /books` with a real JWT, search/filter/pagination, logged-out
-redirect, borrow, duplicate and out-of-stock rejection, and responsive overflow checks. Start
-MongoDB, the Express server (`BETTER_AUTH_URL=http://localhost:3000`) and this app
-(`npm run build && npm start`), start `node scripts/e2e/imgbb-stub.js` and set `IMGBB_API_KEY=TESTKEY-SECRET-123 IMGBB_API_URL=http://localhost:9999/1/upload` (a test-only stand-in for imgbb), then run the scripts.
+Step-by-step guide and verification checklist: [DEPLOYMENT.md](https://github.com/talhatalukdar/booknook-client/blob/main/DEPLOYMENT.md)
 
 ## Screenshots
 
-_Add screenshots here after deployment._
+### Homepage
+![Homepage](docs/screenshots/home.png)
+
+### All Books
+![All Books](docs/screenshots/all-books.png)
+
+### Book Details
+![Book Details](docs/screenshots/book-details.png)
+
+### My Borrows
+![My Borrows](docs/screenshots/my-borrows.png)
+
+### Profile
+![Profile](docs/screenshots/profile.png)
+
+## Related Repository
+
+BookNook Backend: https://github.com/talhatalukdar/booknook-server
+
+## License
+
+This project was developed as part of Programming Hero Assignment 08.

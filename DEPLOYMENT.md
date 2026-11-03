@@ -40,9 +40,11 @@ New **Web Service** from the server repo (`render.yaml` is included):
 
 | Setting | Value |
 | --- | --- |
-| Build command | `npm ci && npm run build` |
+| Build command | `npm install --include=dev && npm run build` |
 | Start command | `npm start` |
 | Health check path | `/health` |
+
+The build command uses `--include=dev` because Render sets `NODE_ENV=production`, which would otherwise skip TypeScript, needed by `npm run build`.
 
 Environment variables:
 
